@@ -8,9 +8,25 @@ class HomeScreen extends GetView<HomeController> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: AppBar(title:  Text('home_screen_title'.tr)),
+      appBar: AppBar(title: Text('home_screen_title'.tr)),
 
-      body: const SafeArea(child: Text('HomeScreenController')),
+      body: GetBuilder<HomeController>(
+        init: HomeController(),
+        initState: (_) {},
+        builder: (_) {
+          return CustomScrollView(
+            slivers: [
+              SliverToBoxAdapter(
+                child: Column(
+                  children: [
+                    ElevatedButton(onPressed: () {}, child: const Text('test')),
+                  ],
+                ),
+              ),
+            ],
+          );
+        },
+      ),
     );
   }
 }
