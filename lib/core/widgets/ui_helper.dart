@@ -19,21 +19,31 @@ class UIHelper {
   static void showSnakBar({
     String? title,
     required String message,
-    required String iconPath,
-    required BuildContext context,
+    Color? backgroundColor,
+    Color? colorText,
+    Function? onTap,
   }) {
-    GetSnackBar(
-      title: title,
-      message: message,
-      titleText: title == null
-          ? null
-          : Text(
-              title,
-              style: AppTextStyles.bold(context).copyWith(fontSize: 12.sp),
-            ),
-      messageText: Text(
-        message,
-        style: AppTextStyles.medium(context).copyWith(fontSize: 12.sp),
+    Get.snackbar(
+      duration: const Duration(seconds: 3),
+      title ?? "",
+      message,
+      backgroundColor:
+          backgroundColor ??
+          Theme.of(Get.context!).primaryColor.withValues(alpha: .5),
+      margin: const EdgeInsets.all(10),
+      colorText: colorText,
+      onTap: (value) => onTap!(),
+      titleText: MediaQuery(
+        data: MediaQuery.of(
+          Get.context!,
+        ).copyWith(textScaler: const TextScaler.linear(1)),
+        child: Text(title ?? "", textAlign: TextAlign.center),
+      ),
+      messageText: MediaQuery(
+        data: MediaQuery.of(
+          Get.context!,
+        ).copyWith(textScaler: const TextScaler.linear(1)),
+        child: Text(message, textAlign: TextAlign.center),
       ),
     );
   }
@@ -69,7 +79,7 @@ class UIHelper {
               pressaction();
               Navigator.of(context).pop();
             },
-            
+
             child: Text("i_am_sure".tr, style: AppTextStyles.semiBold(context)),
           ),
         ],

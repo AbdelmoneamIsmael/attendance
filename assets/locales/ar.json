@@ -9,6 +9,21 @@
     "sign_out":"تسجيل الخروج",
     "attend_in":"حضور",
     "attend_out":"انصراف",
-    "attend_in_out":"حضور وانصراف"
+    "attend_in_out":"حضور وانصراف",
+    "english":"اللغة الانجليزية",
+    "arabic":"اللغة العربية",
+    "username":"اسم المستخدم",
+    "password":"كلمة المرور",
+    "enter_username":"ادخل اسم المستخدم",
+    "enter_password":"ادخل كلمة المرور",
+    "login":"تسجيل الدخول",
+    "logout":"تسجيل الخروج",
+    "this_field_required":"هذا الحقل مطلوب",
+    "home_screen_title":"الصفحة الرئيسية",
+    "name":"الاسم",
+    "age":"العمر",
+    "email":"البريد الالكتروني",
+    "phone":"رقم الهاتف",
+    "address":"العنوان"
     
 }

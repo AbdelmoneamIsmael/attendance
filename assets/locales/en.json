@@ -9,5 +9,20 @@
     "sign_out": "Sign out",
     "attend_in":"Attend",
     "attend_out": "Leave",
-    "attend_in_out": "Attend and Leave"
+    "attend_in_out": "Attend and Leave",
+    "english": "English",
+    "arabic": "Arabic",
+    "username": "Username",
+    "password": "Password",
+    "enter_username": "Enter Username",
+    "enter_password": "Enter Password",
+    "login": "Login",
+    "logout": "Logout",
+    "this_field_required": "This field is required",
+    "home_screen_title": "Home Screen",
+    "name": "Name",
+    "age": "Age",
+    "email": "Email",
+    "phone": "Phone",
+    "address": "Address"
 }

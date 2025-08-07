@@ -117,7 +117,7 @@ class AppTextField extends StatelessWidget {
       inputFormatters: inputFormatters,
       keyboardType: keyboardType,
       maxLines: maxLines,
-
+      onTapOutside: (event) => FocusManager.instance.primaryFocus?.unfocus(),
       style: AppTextStyles.lablell(context),
       decoration: InputDecoration(
         hintText: hint,
