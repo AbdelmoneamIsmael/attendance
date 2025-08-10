@@ -24,5 +24,7 @@
     "age": "Age",
     "email": "Email",
     "phone": "Phone",
-    "address": "Address"
+    "address": "Address",
+    "cant_Access_this_account": "Can't Access this account from this device",
+    "invaled_username_or_password": "Invaled username or password"
 }

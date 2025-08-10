@@ -1,5 +1,6 @@
 import 'package:attendance/core/models/language_model.dart';
 import 'package:attendance/core/routes/pages_keys.dart';
+import 'package:attendance/core/util/networking/firebase_connection.dart';
 import 'package:flutter/cupertino.dart';
 
 const kRefreshToken = "refreshToken";
@@ -10,7 +11,8 @@ String kDeviceToken = "";
 String kInitialRoute = PageKeys.loginScreen;
 // String token = "";
 const kFontFamily = "Tajawal";
-const kAppName = "Pharma Plus";
+const kAppName = "Attendance";
+
 
 const internalLocalError = 700; // englishFont = "Poppins";
 
@@ -32,4 +34,10 @@ class AppConstants {
       languageCode: 'ar',
     ),
   ];
+}
+class FireBaseTabels{
+   FireBaseTabels._();
+  static const connectedDevices = "connected_devices";
+  static const employees = "employees";
+  static const employeeInfo = "employees_info";
 }

@@ -80,8 +80,10 @@ class LoginScreen extends StatelessWidget {
                         ),
                         const SizedBox(),
                         ElevatedButton(
-                          onPressed: controller.login,
-                          child: (false)
+                          onPressed: controller.loading
+                              ? () {}
+                              : controller.login,
+                          child: (controller.loading)
                               ? const CircularProgressIndicator.adaptive(
                                   strokeWidth: 1,
 

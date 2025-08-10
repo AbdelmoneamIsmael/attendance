@@ -5,9 +5,9 @@
 	<key>CFBundleDevelopmentRegion</key>
 	<string>$(DEVELOPMENT_LANGUAGE)</string>
 	<key>CFBundleDisplayName</key>
-	<key>NSFaceIDUsageDescription</key>
-<string>ينبغي التعرف علي هويتك للتاكيد من حضورك</string>
 	<string>تسجيل الحضور والانصراف</string>
+	<key>NSFaceIDUsageDescription</key>
+	<string> ينبغي التعرف علي هويتك للتاكيد من حضورك</string>
 	<key>CFBundleExecutable</key>
 	<string>$(EXECUTABLE_NAME)</string>
 	<key>CFBundleIdentifier</key>

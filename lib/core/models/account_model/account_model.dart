@@ -2,6 +2,7 @@ import 'package:cloud_firestore/cloud_firestore.dart';
 
 class UserAccountModel {
   UserAccountModel({
+    required this.employeeId,
     required this.userName,
     required this.password,
     required this.mobileModle,
@@ -9,13 +10,15 @@ class UserAccountModel {
     required this.lastActivity,
   });
 
-  final String? userName;
-  final String? password;
-  final String? mobileModle;
-  final String? mobileId;
-  final Timestamp? lastActivity;
+   String? employeeId;
+   String? userName;
+   String? password;
+   String? mobileModle;
+   String? mobileId;
+   Timestamp? lastActivity;
 
   UserAccountModel copyWith({
+    String? employeeId,
     String? userName,
     String? password,
     String? mobileModle,
@@ -23,6 +26,7 @@ class UserAccountModel {
     Timestamp? lastActivity,
   }) {
     return UserAccountModel(
+      employeeId: employeeId ?? this.employeeId,
       userName: userName ?? this.userName,
       password: password ?? this.password,
       mobileModle: mobileModle ?? this.mobileModle,
@@ -33,6 +37,7 @@ class UserAccountModel {
 
   factory UserAccountModel.fromJson(Map<String, dynamic> json) {
     return UserAccountModel(
+      employeeId: json["employeeID"],
       userName: json["userName"],
       password: json["password"],
       mobileModle: json["mobileModle"],
@@ -42,6 +47,7 @@ class UserAccountModel {
   }
 
   Map<String, dynamic> toJson() => {
+    "employeeID": employeeId,
     "userName": userName,
     "password": password,
     "mobileModle": mobileModle,
@@ -51,12 +57,13 @@ class UserAccountModel {
 
   @override
   String toString() {
-    return "$userName, $password, $mobileModle, $mobileId, $lastActivity, ";
+    return "$employeeId, $userName, $password, $mobileModle, $mobileId, $lastActivity, ";
   }
 }
 
 /*
 {
+	"employeeID": "",
 	"userName": "",
 	"password": "",
 	"mobileModle": "",
