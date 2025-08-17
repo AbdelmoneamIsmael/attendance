@@ -1,3 +1,5 @@
+import 'package:attendance/core/const/enums.dart';
+import 'package:attendance/core/widgets/attendace_timeline_node.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:get/get.dart';
@@ -17,50 +19,14 @@ class AttendanceListWidget extends StatelessWidget {
           indicatorTheme: const IndicatorThemeData(position: 0, size: 20),
         ),
         children: List.generate(
-          4,
-          (index) => Row(
-            mainAxisAlignment: MainAxisAlignment.center,
-            spacing: 20.0,
-            children: [
-              Expanded(
-                child: Center(
-                  child: Text(
-                    index % 2 == 0 ? "attendance_in".tr : "attendance_out".tr,
-                  ),
-                ),
-              ),
-              Expanded(
-                child: SizedBox(
-                  height: 80.0.h,
-                  child: TimelineNode(
-                    indicator: Row(
-                      mainAxisAlignment: MainAxisAlignment.center,
-
-                      children: [
-                        DotIndicator(
-                          color: index % 2 == 0 ? Colors.green : Colors.red,
-                        ),
-                      ],
-                    ),
-                    startConnector: index == 0
-                        ? DashedLineConnector(
-                            color: index % 2 == 0 ? Colors.green : Colors.red,
-                          )
-                        : SolidLineConnector(
-                            color: index % 2 == 0 ? Colors.green : Colors.red,
-                          ),
-                    endConnector: index + 1 == 10
-                        ? null
-                        : SolidLineConnector(
-                            color: index % 2 != 0 ? Colors.green : Colors.red,
-                          ),
-                  ),
-                ),
-              ),
-              const Expanded(
-                child: Center(child: Text("11:00:00 AM - 23-12-2022")),
-              ),
-            ],
+          6,
+          (index) => TimeLineNodeWidget(
+            type: index % 2 == 0
+                ? AttendanceType.attendIn
+                : AttendanceType.attendOut,
+            firstNode: index == 0,
+            lastNode: index == 5,
+            
           ),
         ),
       ),

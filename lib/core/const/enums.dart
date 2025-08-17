@@ -10,3 +10,4 @@ enum PaymentMethod { cash, visa, vodafoneCash }
 
 enum SocialLogin { facebook, google }
 
+enum AttendanceType { attendIn, attendOut, attendInOut }
