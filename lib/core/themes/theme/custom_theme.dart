@@ -145,6 +145,15 @@ ThemeData lightTheme = ThemeData(
     ),
   ),
   dividerColor: DarkColors.greyColor,
+  progressIndicatorTheme: const ProgressIndicatorThemeData(
+    color: LightColors.primaryColor,
+    circularTrackColor: LightColors.greyColor,
+    linearTrackColor: LightColors.greyColor,
+    borderRadius:  BorderRadius.all(Radius.circular(10)),
+    linearMinHeight: 10,
+    circularTrackPadding:  EdgeInsets.all(10),
+    
+  ),
 );
 
 ///
@@ -236,6 +245,7 @@ ThemeData darkTheme = ThemeData(
     ),
   ),
   dividerColor: DarkColors.greyColor,
+
   tabBarTheme: TabBarThemeData(
     indicatorColor: DarkColors.primaryColor,
     indicatorSize: TabBarIndicatorSize.label,

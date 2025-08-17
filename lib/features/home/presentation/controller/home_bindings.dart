@@ -1,4 +1,4 @@
-import 'package:attendance/features/home/presentation/controller/home_cubit.dart';
+import 'package:attendance/features/home/presentation/controller/home_controller.dart';
 import 'package:get/get.dart';
 
 class HomeBinding implements Bindings {

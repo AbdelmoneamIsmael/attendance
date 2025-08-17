@@ -6,8 +6,8 @@ abstract class LightColors {
   static const Color forGroundColor = Color(0xFF222c3c);
   static const Color textColor = Color(0xFF292b46);
   static const Color text2Color = Color(0xFF4b4b69);
-  static const Color primaryColor = Color(0xFF0C8178);
-  static const Color buttonColor = Color(0xFF0C8178);
+  static const Color primaryColor = Color(0xFF2955fe);
+  static const Color buttonColor = Color(0xFF2955fe);
   static const Color secondButtonColor = Color(0xFF11047A);
   static const Color secondContainerColor = Color(0xFFEAEDFA);
   static const Color containerColor = Color(0xFFD9D9D9);

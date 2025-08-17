@@ -78,54 +78,55 @@ class LoginController extends GetxController {
   }
 
   Future<bool> authenticateUser() async {
-    try {
-      // Check if device supports biometrics (face/fingerprint)
-      final bool canAuthenticateWithBiometrics = await auth.canCheckBiometrics;
-      bool canAuthenticate =
-          await auth.canCheckBiometrics || await auth.isDeviceSupported();
+    return true; //for semulator
+    // try {
+    //   // Check if device supports biometrics (face/fingerprint)
+    //   final bool canAuthenticateWithBiometrics = await auth.canCheckBiometrics;
+    //   bool canAuthenticate =
+    //       await auth.canCheckBiometrics || await auth.isDeviceSupported();
 
-      if (!canAuthenticate) {
-        UIHelper.showSnakBar(
-          title: "Error",
-          message: "Your device is not supported for biometric authentication",
-        );
+    //   if (!canAuthenticate) {
+    //     UIHelper.showSnakBar(
+    //       title: "Error",
+    //       message: "Your device is not supported for biometric authentication",
+    //     );
 
-        return false;
-      }
+    //     return false;
+    //   }
 
-      // Get available biometrics (face, fingerprint...)
-      List<BiometricType> availableBiometrics = await auth
-          .getAvailableBiometrics();
+    //   // Get available biometrics (face, fingerprint...)
+    //   List<BiometricType> availableBiometrics = await auth
+    //       .getAvailableBiometrics();
 
-      print("Available biometrics: $availableBiometrics");
+    //   print("Available biometrics: $availableBiometrics");
 
-      // Authenticate the user
-      bool didAuthenticate = await auth.authenticate(
-        localizedReason: 'Please authenticate to access the app',
-        options: const AuthenticationOptions(
-          biometricOnly: true,
-          stickyAuth: true,
-        ),
-      );
+    //   // Authenticate the user
+    //   bool didAuthenticate = await auth.authenticate(
+    //     localizedReason: 'Please authenticate to access the app',
+    //     options: const AuthenticationOptions(
+    //       biometricOnly: true,
+    //       stickyAuth: true,
+    //     ),
+    //   );
 
-      if (didAuthenticate) {
-        UIHelper.showSnakBar(
-          title: "Success",
-          message: "Authentication successful",
-        );
-        // Proceed: Save auth status to database or allow access
-        return true;
-      } else {
-        UIHelper.showSnakBar(title: "Error", message: "Authentication failed");
-        return false;
-      }
-    } catch (e) {
-      UIHelper.showSnakBar(
-        title: "Error",
-        message: "Authentication failed ${e.toString()}",
-      );
-      return false;
-    }
+    //   if (didAuthenticate) {
+    //     UIHelper.showSnakBar(
+    //       title: "Success",
+    //       message: "Authentication successful",
+    //     );
+    //     // Proceed: Save auth status to database or allow access
+    //     return true;
+    //   } else {
+    //     UIHelper.showSnakBar(title: "Error", message: "Authentication failed");
+    //     return false;
+    //   }
+    // } catch (e) {
+    //   UIHelper.showSnakBar(
+    //     title: "Error",
+    //     message: "Authentication failed ${e.toString()}",
+    //   );
+    //   return false;
+    // }
   }
 
   Future<String?> getDeviceId() async {

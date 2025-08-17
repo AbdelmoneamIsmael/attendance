@@ -104,6 +104,9 @@ class $AssetsIconsGen {
   /// File path: assets/icons/balance.svg
   String get balance => 'assets/icons/balance.svg';
 
+  /// File path: assets/icons/biomet.svg
+  String get biomet => 'assets/icons/biomet.svg';
+
   /// File path: assets/icons/card_background.svg
   String get cardBackground => 'assets/icons/card_background.svg';
 
@@ -184,6 +187,9 @@ class $AssetsIconsGen {
 
   /// File path: assets/icons/no_user.svg
   String get noUser => 'assets/icons/no_user.svg';
+
+  /// File path: assets/icons/notification.svg
+  String get notification => 'assets/icons/notification.svg';
 
   /// File path: assets/icons/pill.svg
   String get pill => 'assets/icons/pill.svg';
@@ -270,6 +276,7 @@ class $AssetsIconsGen {
         adSvg,
         askQuestion,
         balance,
+        biomet,
         cardBackground,
         chat,
         checkBox,
@@ -297,6 +304,7 @@ class $AssetsIconsGen {
         noNotification,
         noRequests,
         noUser,
+        notification,
         pill,
         privacy,
         profile,
@@ -336,6 +344,19 @@ class $AssetsImagesGen {
   List<AssetGenImage> get values => [a8208952];
 }
 
+class $AssetsLocalesGen {
+  const $AssetsLocalesGen();
+
+  /// File path: assets/locales/ar.json
+  String get ar => 'assets/locales/ar.json';
+
+  /// File path: assets/locales/en.json
+  String get en => 'assets/locales/en.json';
+
+  /// List of all assets
+  List<String> get values => [ar, en];
+}
+
 class $AssetsLottieGen {
   const $AssetsLottieGen();
 
@@ -365,6 +386,7 @@ class Assets {
   static const $AssetsFontsGen fonts = $AssetsFontsGen();
   static const $AssetsIconsGen icons = $AssetsIconsGen();
   static const $AssetsImagesGen images = $AssetsImagesGen();
+  static const $AssetsLocalesGen locales = $AssetsLocalesGen();
   static const $AssetsLottieGen lottie = $AssetsLottieGen();
 }
 

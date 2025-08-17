@@ -1,8 +1,12 @@
 import 'package:attendance/core/routes/pages_keys.dart';
-import 'package:attendance/features/home/presentation/controller/home_state.dart';
+import 'package:attendance/features/all_attendance_calender/presentation/controller/all_attendance_calender_bindings.dart';
+import 'package:attendance/features/all_attendance_calender/presentation/pages/all_attend_calender.dart';
+import 'package:attendance/features/home/presentation/controller/home_bindings.dart';
 import 'package:attendance/features/home/presentation/pages/home_screen.dart';
 import 'package:attendance/features/login_screen/presentation/controller/login_bindings.dart';
 import 'package:attendance/features/login_screen/presentation/pages/login_screen.dart';
+import 'package:attendance/features/notification/presentation/controller/notification_bindings.dart';
+import 'package:attendance/features/notification/presentation/pages/notification_page.dart';
 import 'package:get/get.dart';
 
 class AppPages {
@@ -22,6 +26,18 @@ class AppPages {
 
       page: () => const HomeScreen(),
       binding: HomeBinding(),
+      transition: Transition.cupertino,
+    ),
+    GetPage(
+      name: PageKeys.notificationScreen,
+      page: () => const NotificationPage(),
+      binding: NotificationBinding(),
+      transition: Transition.cupertino,
+    ),
+    GetPage(
+      name: PageKeys.allAttendCalender,
+      page: () => const AllAttendCalender(),
+      binding: AttendanceBinding(),
       transition: Transition.cupertino,
     ),
   ];
