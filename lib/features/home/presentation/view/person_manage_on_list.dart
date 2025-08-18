@@ -1,3 +1,4 @@
+import 'package:attendance/core/routes/pages_keys.dart';
 import 'package:attendance/core/widgets/cashed_images.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
@@ -12,6 +13,10 @@ class PersonManageOnList extends StatelessWidget {
       padding: const EdgeInsets.symmetric(horizontal: 22, vertical: 10).w,
       sliver: SliverList.separated(
         itemBuilder: (context, index) => ListTile(
+          onTap: () => Get.toNamed(
+            PageKeys.profileScreen,
+            arguments: {"haveGroup": index == 1},
+          ),
           contentPadding: const EdgeInsets.all(14).w,
           leading: const CachedImage(
             height: 60,
@@ -35,9 +40,15 @@ class PersonManageOnList extends StatelessWidget {
             color: Colors.grey,
             fontWeight: FontWeight.w600,
           ),
-          trailing: Icon(
-            Icons.circle,
-            color: index == 2 ? Colors.red : Colors.green,
+          trailing: Column(
+            crossAxisAlignment: CrossAxisAlignment.center,
+            mainAxisAlignment: MainAxisAlignment.spaceAround,
+            children: [
+              Icon(Icons.circle, color: index == 2 ? Colors.red : Colors.green),
+              index == 1
+                  ? const Icon(Icons.groups_2_outlined)
+                  : const SizedBox(),
+            ],
           ),
           tileColor: Colors.white,
           shape: const RoundedRectangleBorder(

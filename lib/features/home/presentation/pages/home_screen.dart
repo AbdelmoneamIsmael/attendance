@@ -1,16 +1,15 @@
 import 'package:attendance/core/routes/pages_keys.dart';
-import 'package:attendance/core/widgets/cashed_images.dart';
+import 'package:attendance/core/widgets/app_text_field.dart';
 import 'package:attendance/core/widgets/title_tale.dart';
 import 'package:attendance/features/home/presentation/controller/home_controller.dart';
 import 'package:attendance/features/home/presentation/view/attendance_List_widget.dart';
-import 'package:attendance/features/home/presentation/view/person_manage__on_list.dart';
+import 'package:attendance/features/home/presentation/view/person_manage_on_list.dart';
 import 'package:attendance/features/home/presentation/widgets/user_info_card.dart';
 import 'package:attendance/gen/assets.gen.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
-import 'package:flutter_svg/flutter_svg.dart';
+import 'package:flutter_svg/svg.dart';
 import 'package:get/get.dart';
-import 'package:timelines_plus/timelines_plus.dart';
 
 class HomeScreen extends GetView<HomeController> {
   const HomeScreen({super.key});
@@ -48,7 +47,9 @@ class HomeScreen extends GetView<HomeController> {
         builder: (_) {
           return CustomScrollView(
             slivers: [
-              const SliverToBoxAdapter(child: UserAttendInfoCard()),
+              const SliverToBoxAdapter(
+                child: UserAttendInfoCard(isSamePerson: true),
+              ),
               const SliverToBoxAdapter(child: SizedBox(height: 20)),
               SliverToBoxAdapter(
                 child: Padding(
@@ -88,6 +89,23 @@ class HomeScreen extends GetView<HomeController> {
                         ),
                       ),
                     ],
+                  ),
+                ),
+              ),
+              SliverToBoxAdapter(
+                child: Padding(
+                  padding: const EdgeInsets.symmetric(
+                    horizontal: 22,
+                    vertical: 10,
+                  ).w,
+                  child: AppTextField(
+                    hint: "search".tr,
+                    prefixIcon: SvgPicture.asset(
+                      Assets.icons.search,
+                      width: 20,
+                      height: 20,
+                      fit: BoxFit.scaleDown,
+                    ),
                   ),
                 ),
               ),

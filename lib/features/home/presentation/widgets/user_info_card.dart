@@ -5,7 +5,8 @@ import 'package:flutter_svg/svg.dart';
 import 'package:get/get.dart';
 
 class UserAttendInfoCard extends StatelessWidget {
-  const UserAttendInfoCard({super.key});
+  const UserAttendInfoCard({super.key, this.isSamePerson = false});
+  final bool isSamePerson;
 
   @override
   Widget build(BuildContext context) {
@@ -94,25 +95,26 @@ class UserAttendInfoCard extends StatelessWidget {
             const SizedBox(height: 20),
             const LinearProgressIndicator(value: 0.5),
             const SizedBox(height: 20),
-            ElevatedButton(
-              onPressed: () {},
-              child: Row(
-                mainAxisAlignment: MainAxisAlignment.center,
-                children: [
-                  SvgPicture.asset(
-                    Assets.icons.biomet,
-                    width: 20,
-                    height: 20,
-                    colorFilter: const ColorFilter.mode(
-                      Colors.white,
-                      BlendMode.srcIn,
+            if (isSamePerson)
+              ElevatedButton(
+                onPressed: () {},
+                child: Row(
+                  mainAxisAlignment: MainAxisAlignment.center,
+                  children: [
+                    SvgPicture.asset(
+                      Assets.icons.biomet,
+                      width: 20,
+                      height: 20,
+                      colorFilter: const ColorFilter.mode(
+                        Colors.white,
+                        BlendMode.srcIn,
+                      ),
                     ),
-                  ),
-                  const SizedBox(width: 10),
-                  Text('start_attendance'.tr),
-                ],
+                    const SizedBox(width: 10),
+                    Text('start_attendance'.tr),
+                  ],
+                ),
               ),
-            ),
 
             // ElevatedButton(
             //   style: ElevatedButton.styleFrom(

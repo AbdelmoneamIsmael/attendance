@@ -7,6 +7,8 @@ import 'package:attendance/features/login_screen/presentation/controller/login_b
 import 'package:attendance/features/login_screen/presentation/pages/login_screen.dart';
 import 'package:attendance/features/notification/presentation/controller/notification_bindings.dart';
 import 'package:attendance/features/notification/presentation/pages/notification_page.dart';
+import 'package:attendance/features/profile_screen/presentation/cubit/profile_screen_bindning.dart';
+import 'package:attendance/features/profile_screen/presentation/pages/profile_screen.dart';
 import 'package:get/get.dart';
 
 class AppPages {
@@ -38,6 +40,12 @@ class AppPages {
       name: PageKeys.allAttendCalender,
       page: () => const AllAttendCalender(),
       binding: AttendanceBinding(),
+      transition: Transition.cupertino,
+    ),
+    GetPage(
+      name: PageKeys.profileScreen,
+      page: () => const ProfileScreen(),
+      binding: ProfileBinding(),
       transition: Transition.cupertino,
     ),
   ];
