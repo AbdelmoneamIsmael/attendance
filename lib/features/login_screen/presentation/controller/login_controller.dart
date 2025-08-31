@@ -65,7 +65,7 @@ class LoginController extends GetxController {
           EmployeeInformation employeeInformation = await loginServices.login(
             account: account,
           );
-          Get.toNamed(PageKeys.homeScreen, arguments: employeeInformation);
+          // Get.toNamed(PageKeys.homeScreen, arguments: employeeInformation);
           loading = false;
           update();
         } on Exception catch (e) {
