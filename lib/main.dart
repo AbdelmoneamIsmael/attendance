@@ -1,7 +1,10 @@
 // import 'dart:html' as web;
 import 'package:attendance/app_configration.dart';
+import 'package:attendance/core/util/cache/cache_helper.dart';
 import 'package:attendance/core/util/functions/initialize_Localization.dart';
+import 'package:attendance/core/util/networking/api_server.dart';
 import 'package:attendance/core/util/notification/notification_handeler.dart';
+import 'package:attendance/features/login_screen/data/datasources/remote_login_data_source.dart';
 import 'package:attendance/features/login_screen/data/repositories/login_services_imple.dart';
 import 'package:attendance/features/login_screen/domain/repositories/login_services.dart';
 import 'package:attendance/firebase_options.dart';
@@ -17,7 +20,7 @@ void main() async {
   WidgetsFlutterBinding.ensureInitialized();
   await ScreenUtil.ensureScreenSize();
   AppLocalization.language = await AppLocalization.init();
-  initialize();
+  await initialize();
   await firebaseConfig();
   runApp(
     DevicePreview(enabled: false, builder: (context) => const Attendance()),
@@ -28,13 +31,18 @@ Future<void> firebaseConfig() async {
   await Firebase.initializeApp(options: DefaultFirebaseOptions.currentPlatform);
   var notificationPermission = await FirebaseMessaging.instance
       .getNotificationSettings();
-  
+
   if (notificationPermission.authorizationStatus ==
       AuthorizationStatus.authorized) {
     await NotificationHelper.init();
   }
 }
 
-initialize() {
-  Get.lazyPut<LoginServices>(() => LoginServicesImple());
+initialize() async {
+  await CacheHelper.init();
+  Get.lazyPut<LoginServices>(
+    () => LoginServicesImple(
+      remoteLoginDataSource: RemoteLoginDataSourceImple(ApiServer().dio),
+    ),
+  );
 }

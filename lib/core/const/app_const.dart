@@ -4,7 +4,7 @@ import 'package:attendance/core/util/networking/firebase_connection.dart';
 import 'package:flutter/cupertino.dart';
 
 const kRefreshToken = "refreshToken";
-const prodBaseURl = "https://aman.runasp.net";
+const prodBaseURl = "https://hr-api.runasp.net";
 const mapbaseURl = "https://openstreet.almahd-it.com/";
 String kDeviceToken = "";
 // String kInitialRoute = PagesKeys.internalPlaceDetailsScreen;
@@ -12,7 +12,6 @@ String kInitialRoute = PageKeys.loginScreen;
 // String token = "";
 const kFontFamily = "Tajawal";
 const kAppName = "Attendance";
-
 
 const internalLocalError = 700; // englishFont = "Poppins";
 
@@ -35,8 +34,9 @@ class AppConstants {
     ),
   ];
 }
-class FireBaseTabels{
-   FireBaseTabels._();
+
+class FireBaseTabels {
+  FireBaseTabels._();
   static const connectedDevices = "connected_devices";
   static const employees = "employees";
   static const employeeInfo = "employees_info";

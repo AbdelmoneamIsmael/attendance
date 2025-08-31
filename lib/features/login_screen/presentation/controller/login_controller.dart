@@ -1,13 +1,17 @@
 import 'dart:io';
 
+import 'package:attendance/core/const/app_const.dart';
 import 'package:attendance/core/models/account_model/account_model.dart';
 import 'package:attendance/core/models/account_model/employee_info.dart';
 import 'package:attendance/core/routes/pages_keys.dart';
 import 'package:attendance/core/util/networking/firebase_connection.dart';
+import 'package:attendance/core/util/notification/notification_handeler.dart';
 import 'package:attendance/core/widgets/ui_helper.dart';
+import 'package:attendance/features/login_screen/domain/entities/login_params.dart';
 import 'package:attendance/features/login_screen/domain/repositories/login_services.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:device_info_plus/device_info_plus.dart';
+import 'package:firebase_messaging/firebase_messaging.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:local_auth/local_auth.dart';
@@ -44,30 +48,35 @@ class LoginController extends GetxController {
 
   bool loading = false;
   Future<void> login() async {
-    await checkFaceAuth();
+    // await checkFaceAuth();
+    await cheeckNotification();
     String identifier = await getDeviceId() ?? "";
     String mobileModle = await getDeviceInfo();
     if (formKey.currentState!.validate()) {
       bool auth = await authenticateUser();
 
-      if (auth) {
+      if (true) {
         loading = true;
         update();
-        UserAccountModel account = UserAccountModel(
-          employeeId: "",
-          userName: usernameController.text,
+        LoginParams loginParams = LoginParams(
+          username: usernameController.text,
           password: passwordController.text,
-          mobileModle: mobileModle,
-          mobileId: identifier,
-          lastActivity: Timestamp.now(),
+          deviceToken: kDeviceToken,
+          deviceId: identifier,
+          longitude: "0",
+          latitude: "1",
         );
         try {
-          EmployeeInformation employeeInformation = await loginServices.login(
-            account: account,
+          var results = await loginServices.login(loginParams: loginParams);
+          results.fold(
+            (l) => UIHelper.showSnakBar(title: "Error", message: l.message),
+            (r) => print(r.message),
           );
-          // Get.toNamed(PageKeys.homeScreen, arguments: employeeInformation);
+
           loading = false;
           update();
+
+          // Get.toNamed(PageKeys.homeScreen, arguments: employeeInformation);
         } on Exception catch (e) {
           loading = false;
           update();
@@ -165,6 +174,16 @@ class LoginController extends GetxController {
       print("Face authentication is available ✅");
     } else {
       print("Face authentication not available ❌");
+    }
+  }
+
+  Future<void> cheeckNotification() async {
+    var notificationPermission = await FirebaseMessaging.instance
+        .getNotificationSettings();
+
+    if (notificationPermission.authorizationStatus !=
+        AuthorizationStatus.authorized) {
+      await NotificationHelper.init();
     }
   }
 }

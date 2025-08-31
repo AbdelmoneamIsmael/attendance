@@ -1,15 +1,11 @@
-import 'package:attendance/core/models/account_model/account_model.dart';
-import 'package:attendance/core/models/account_model/employee_info.dart';
-import 'package:attendance/core/models/device_model/connected_device_model.dart';
+import 'package:attendance/core/errors/error_class.dart';
+import 'package:attendance/core/models/account_model/user_info_model.dart';
+import 'package:attendance/features/login_screen/domain/entities/login_params.dart';
+import 'package:dartz/dartz.dart';
 
 abstract class LoginServices {
-  Future<UserAccountModel> getLoginAccountInfo({
-    required String username,
-    required String password,
+  Future<Either<Failure, UserInfoModel>> login({
+    required LoginParams loginParams,
   });
-  Future<ConnectedDeviceModel> getConnectedDeviceModel({
-    required String deviceId,
-  });
-  Future<EmployeeInformation> login({required UserAccountModel account});
-  Future<EmployeeInformation> getEmployeeInfo({required String employeeId});
+  Future<Either<Failure, UserInfoModel>> getLoginEmployeeInfo();
 }
