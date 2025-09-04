@@ -14,7 +14,7 @@ EmployeeInformation _$EmployeeInformationFromJson(Map<String, dynamic> json) =>
       shiftView: json['shiftView'] == null
           ? null
           : ShiftView.fromJson(json['shiftView'] as Map<String, dynamic>),
-      employeesCount: json['employeesCount'] as bool?,
+      employeesCount: json['employeesCount'] as num?,
       isManager: json['isManager'] as bool?,
     );
 

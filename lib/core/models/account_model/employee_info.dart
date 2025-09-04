@@ -9,13 +9,13 @@ class EmployeeInformation {
   final EmployeeView? employeeView;
   final ShiftView? shiftView;
   final bool? isManager;
-  final bool? employeesCount;
+  final num? employeesCount;
 
   EmployeeInformation copyWith({
     EmployeeView? employeeView,
     ShiftView? shiftView,
     bool ? isManager,
-    bool ? employeesCount
+    num ? employeesCount
   }) {
     return EmployeeInformation(
       isManager:  isManager ?? this.isManager,
