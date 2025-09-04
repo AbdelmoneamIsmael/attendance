@@ -1,0 +1,48 @@
+import 'package:attendance/core/models/account_model/employee_info.dart';
+import 'package:json_annotation/json_annotation.dart';
+
+part 'employee_information_response.g.dart';
+
+@JsonSerializable()
+class EmployeeInformationResponse {
+  EmployeeInformationResponse({
+    required this.success,
+    required this.data,
+    required this.message,
+    required this.statusCode,
+    required this.error,
+  });
+
+  final bool? success;
+  final EmployeeInformation? data;
+  final String? message;
+  final num? statusCode;
+  final dynamic error;
+
+  EmployeeInformationResponse copyWith({
+    bool? success,
+    EmployeeInformation? data,
+    String? message,
+    num? statusCode,
+    dynamic? error,
+  }) {
+    return EmployeeInformationResponse(
+      success: success ?? this.success,
+      data: data ?? this.data,
+      message: message ?? this.message,
+      statusCode: statusCode ?? this.statusCode,
+      error: error ?? this.error,
+    );
+  }
+
+  factory EmployeeInformationResponse.fromJson(Map<String, dynamic> json) =>
+      _$EmployeeInformationResponseFromJson(json);
+
+  Map<String, dynamic> toJson() => _$EmployeeInformationResponseToJson(this);
+
+  @override
+  String toString() {
+    return "$success, $data, $message, $statusCode, $error, ";
+  }
+}
+

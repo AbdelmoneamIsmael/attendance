@@ -1,9 +1,13 @@
 import 'dart:io';
 
 import 'package:attendance/core/const/app_const.dart';
+import 'package:attendance/core/const/storage_keys.dart';
+import 'package:attendance/core/controllers/auth_controller/auth_controller.dart';
 import 'package:attendance/core/models/account_model/account_model.dart';
 import 'package:attendance/core/models/account_model/employee_info.dart';
+import 'package:attendance/core/models/account_model/user_info_model.dart';
 import 'package:attendance/core/routes/pages_keys.dart';
+import 'package:attendance/core/util/cache/cache_helper.dart';
 import 'package:attendance/core/util/networking/firebase_connection.dart';
 import 'package:attendance/core/util/notification/notification_handeler.dart';
 import 'package:attendance/core/widgets/ui_helper.dart';
@@ -70,7 +74,14 @@ class LoginController extends GetxController {
           var results = await loginServices.login(loginParams: loginParams);
           results.fold(
             (l) => UIHelper.showSnakBar(title: "Error", message: l.message),
-            (r) => print(r.message),
+            (r) async {
+              await CacheHelper.setSecuerString(
+                key: StorageKeys.accessToken,
+                value: r.token ?? "",
+              );
+              Get.find<AuthController>().initializeUserInfo(r);
+              await getEmployeeInfo(user: r);
+            },
           );
 
           loading = false;
@@ -185,5 +196,17 @@ class LoginController extends GetxController {
         AuthorizationStatus.authorized) {
       await NotificationHelper.init();
     }
+  }
+
+  Future<void> getEmployeeInfo({required UserInfoModel user}) async {
+    var result = await loginServices.getLoginEmployeeInfo(userID: user.id ?? 0);
+
+    result.fold(
+      (l) => UIHelper.showSnakBar(title: "Error", message: l.message),
+      (r) async {
+        Get.find<AuthController>().initializeEmployeeInfo(r);
+        Get.toNamed(PageKeys.homeScreen);
+      },
+    );
   }
 }

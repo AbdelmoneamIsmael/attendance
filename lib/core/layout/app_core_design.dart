@@ -1,7 +1,7 @@
 import 'package:animated_theme_switcher/animated_theme_switcher.dart';
-import 'package:attendance/core/app_controller/app_bindings.dart';
-import 'package:attendance/core/app_controller/app_controller.dart';
-import 'package:attendance/core/app_controller/language_controller.dart';
+import 'package:attendance/core/controllers/app_controller/app_bindings.dart';
+import 'package:attendance/core/controllers/app_controller/app_controller.dart';
+import 'package:attendance/core/controllers/app_controller/language_controller.dart';
 import 'package:attendance/core/const/app_const.dart';
 import 'package:attendance/core/routes/pages_keys.dart';
 import 'package:attendance/core/util/functions/initialize_Localization.dart';

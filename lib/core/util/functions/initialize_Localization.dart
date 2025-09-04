@@ -1,6 +1,6 @@
 import 'dart:convert';
 
-import 'package:attendance/core/app_controller/language_controller.dart';
+import 'package:attendance/core/controllers/app_controller/language_controller.dart';
 import 'package:attendance/core/const/app_const.dart';
 import 'package:attendance/core/models/language_model.dart';
 import 'package:flutter/services.dart';

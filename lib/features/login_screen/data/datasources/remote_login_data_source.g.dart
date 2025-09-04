@@ -13,9 +13,7 @@ class _RemoteLoginDataSourceImple implements RemoteLoginDataSourceImple {
     this._dio, {
     this.baseUrl,
     this.errorLogger,
-  }) {
-    baseUrl ??= 'https://hr-api.runasp.net';
-  }
+  });
 
   final Dio _dio;
 
@@ -24,13 +22,14 @@ class _RemoteLoginDataSourceImple implements RemoteLoginDataSourceImple {
   final ParseErrorLogger? errorLogger;
 
   @override
-  Future<UserInfoModel> getToken(Map<String, dynamic> loginParamsJson) async {
+  Future<UserInfoModelResponse> getToken(
+      Map<String, dynamic> loginParamsJson) async {
     final _extra = <String, dynamic>{};
     final queryParameters = <String, dynamic>{};
     final _headers = <String, dynamic>{};
     final _data = <String, dynamic>{};
     _data.addAll(loginParamsJson);
-    final _options = _setStreamType<UserInfoModel>(Options(
+    final _options = _setStreamType<UserInfoModelResponse>(Options(
       method: 'POST',
       headers: _headers,
       extra: _extra,
@@ -47,9 +46,42 @@ class _RemoteLoginDataSourceImple implements RemoteLoginDataSourceImple {
           baseUrl,
         )));
     final _result = await _dio.fetch<Map<String, dynamic>>(_options);
-    late UserInfoModel _value;
+    late UserInfoModelResponse _value;
     try {
-      _value = UserInfoModel.fromJson(_result.data!);
+      _value = UserInfoModelResponse.fromJson(_result.data!);
+    } on Object catch (e, s) {
+      errorLogger?.logError(e, s, _options);
+      rethrow;
+    }
+    return _value;
+  }
+
+  @override
+  Future<EmployeeInformationResponse> getLoginEmployeeInfo(int userId) async {
+    final _extra = <String, dynamic>{};
+    final queryParameters = <String, dynamic>{r'UserId': userId};
+    final _headers = <String, dynamic>{};
+    const Map<String, dynamic>? _data = null;
+    final _options = _setStreamType<EmployeeInformationResponse>(Options(
+      method: 'GET',
+      headers: _headers,
+      extra: _extra,
+    )
+        .compose(
+          _dio.options,
+          '/api/Employees/GetEmployee',
+          queryParameters: queryParameters,
+          data: _data,
+        )
+        .copyWith(
+            baseUrl: _combineBaseUrls(
+          _dio.options.baseUrl,
+          baseUrl,
+        )));
+    final _result = await _dio.fetch<Map<String, dynamic>>(_options);
+    late EmployeeInformationResponse _value;
+    try {
+      _value = EmployeeInformationResponse.fromJson(_result.data!);
     } on Object catch (e, s) {
       errorLogger?.logError(e, s, _options);
       rethrow;

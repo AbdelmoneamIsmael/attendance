@@ -1,4 +1,4 @@
-import 'package:attendance/core/app_controller/language_controller.dart';
+import 'package:attendance/core/controllers/app_controller/language_controller.dart';
 import 'package:attendance/core/const/app_const.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
