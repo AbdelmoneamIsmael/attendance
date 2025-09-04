@@ -4,16 +4,22 @@ part 'employee_info.g.dart';
 
 @JsonSerializable()
 class EmployeeInformation {
-  EmployeeInformation({required this.employeeView, required this.shiftView});
+  EmployeeInformation({required this.employeeView, required this.shiftView,required this.employeesCount,required this.isManager});
 
   final EmployeeView? employeeView;
   final ShiftView? shiftView;
+  final bool? isManager;
+  final bool? employeesCount;
 
   EmployeeInformation copyWith({
     EmployeeView? employeeView,
     ShiftView? shiftView,
+    bool ? isManager,
+    bool ? employeesCount
   }) {
     return EmployeeInformation(
+      isManager:  isManager ?? this.isManager,
+      employeesCount: employeesCount ?? this.employeesCount,
       employeeView: employeeView ?? this.employeeView,
       shiftView: shiftView ?? this.shiftView,
     );
@@ -33,6 +39,7 @@ class EmployeeInformation {
 @JsonSerializable()
 class EmployeeView {
   EmployeeView({
+    this.imageUrl,
     required this.id,
     required this.name,
     required this.email,
@@ -61,6 +68,7 @@ class EmployeeView {
   final dynamic employeeType;
   final String? address;
   final num? gender;
+  final String? imageUrl;
 
   EmployeeView copyWith({
     int? id,
@@ -76,9 +84,12 @@ class EmployeeView {
     dynamic? employeeType,
     String? address,
     num? gender,
+    String? imageUrl,
   }) {
     return EmployeeView(
+      imageUrl: imageUrl ?? this.imageUrl,
       id: id ?? this.id,
+
       name: name ?? this.name,
       email: email ?? this.email,
       phoneNumber: phoneNumber ?? this.phoneNumber,
@@ -183,4 +194,3 @@ class ShiftView {
 		"graceOutMinutes": 15
 	}
 }*/
-

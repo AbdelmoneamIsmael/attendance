@@ -47,8 +47,11 @@ class HomeScreen extends GetView<HomeController> {
         builder: (_) {
           return CustomScrollView(
             slivers: [
-              const SliverToBoxAdapter(
-                child: UserAttendInfoCard(isSamePerson: true),
+              SliverToBoxAdapter(
+                child: UserAttendInfoCard(
+                  isSamePerson: true,
+                  employeeInformation: controller.employeeInformation,
+                ),
               ),
               const SliverToBoxAdapter(child: SizedBox(height: 20)),
               SliverToBoxAdapter(

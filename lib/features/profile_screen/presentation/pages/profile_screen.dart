@@ -1,3 +1,4 @@
+import 'package:attendance/core/controllers/auth_controller/auth_controller.dart';
 import 'package:attendance/core/routes/pages_keys.dart';
 import 'package:attendance/core/widgets/title_tale.dart';
 import 'package:attendance/features/home/presentation/view/attendance_List_widget.dart';
@@ -22,8 +23,12 @@ class ProfileScreen extends GetView<ProfileController> {
         builder: (_) {
           return CustomScrollView(
             slivers: [
-              const SliverToBoxAdapter(
-                child: UserAttendInfoCard(isSamePerson: false),
+              SliverToBoxAdapter(
+                child: UserAttendInfoCard(
+                  isSamePerson: false,
+                  employeeInformation:
+                      Get.find<AuthController>().employeeInformation,
+                ),
               ),
               const SliverToBoxAdapter(child: SizedBox(height: 20)),
               SliverToBoxAdapter(

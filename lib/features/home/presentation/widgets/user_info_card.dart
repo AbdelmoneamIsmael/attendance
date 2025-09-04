@@ -1,15 +1,35 @@
+import 'package:attendance/core/models/account_model/employee_info.dart';
+import 'package:attendance/core/widgets/avatar_view.dart';
 import 'package:attendance/core/widgets/cashed_images.dart';
 import 'package:attendance/gen/assets.gen.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/svg.dart';
 import 'package:get/get.dart';
 
-class UserAttendInfoCard extends StatelessWidget {
-  const UserAttendInfoCard({super.key, this.isSamePerson = false});
+class UserAttendInfoCard extends StatefulWidget {
+  const UserAttendInfoCard({
+    super.key,
+    this.isSamePerson = false,
+    required this.employeeInformation,
+  });
   final bool isSamePerson;
+  final EmployeeInformation employeeInformation;
 
   @override
+  State<UserAttendInfoCard> createState() => _UserAttendInfoCardState();
+}
+
+class _UserAttendInfoCardState extends State<UserAttendInfoCard> {
+ late DateTime startTime ;
+ late DateTime endTime ;
+  @override
+  void initState() {
+    
+    super.initState();
+  }
+  @override
   Widget build(BuildContext context) {
+    final employeeView = widget.employeeInformation.employeeView;
     return Container(
       margin: const EdgeInsets.all(20),
       decoration: BoxDecoration(
@@ -31,18 +51,19 @@ class UserAttendInfoCard extends StatelessWidget {
         ),
         child: Column(
           children: [
-            const CachedImage(
-              width: 100,
-              height: 100,
-              radius: 100,
-              elevation: 4,
-              url:
-                  "https://media.istockphoto.com/id/1042466484/photo/smiling-handsome-man-in-gray-t-shirt-standing-with-crossed-arms-isolated-on-grey-background.jpg?s=612x612&w=0&k=20&c=m0Xz8b_yc1BFcELffDrLjdFsuqICZCVz_oAN4B87orY=",
-            ),
+            // const CachedImage(
+            //   width: 100,
+            //   height: 100,
+            //   radius: 100,
+            //   elevation: 4,
+            //   url:
+            //       "https://media.istockphoto.com/id/1042466484/photo/smiling-handsome-man-in-gray-t-shirt-standing-with-crossed-arms-isolated-on-grey-background.jpg?s=612x612&w=0&k=20&c=m0Xz8b_yc1BFcELffDrLjdFsuqICZCVz_oAN4B87orY=",
+            // ),
+            AvatarView(name: employeeView!.name ?? "AL"),
             const SizedBox(height: 20),
-            const Text(
-              "Abdelmoneam Ismael",
-              style: TextStyle(fontSize: 20, fontWeight: FontWeight.bold),
+            Text(
+              employeeView.name ?? "AL",
+              style: const TextStyle(fontSize: 20, fontWeight: FontWeight.bold),
             ),
             const SizedBox(height: 5),
             const Row(
@@ -58,27 +79,27 @@ class UserAttendInfoCard extends StatelessWidget {
               ],
             ),
             const SizedBox(height: 5),
-            const Row(
+            Row(
               mainAxisAlignment: MainAxisAlignment.center,
               children: [
-                Icon(Icons.phone, color: Colors.grey, size: 12),
-                SizedBox(width: 10),
+                const Icon(Icons.phone, color: Colors.grey, size: 12),
+                const SizedBox(width: 10),
                 Text(
-                  "+201012345678",
-                  style: TextStyle(fontSize: 12, color: Colors.grey),
+                  employeeView.phoneNumber ?? "",
+                  style: const TextStyle(fontSize: 12, color: Colors.grey),
                 ),
               ],
             ),
             const SizedBox(height: 5),
-            const Row(
+            Row(
               mainAxisAlignment: MainAxisAlignment.center,
 
               children: [
-                Icon(Icons.email, color: Colors.grey, size: 12),
-                SizedBox(width: 10),
+                const Icon(Icons.email, color: Colors.grey, size: 12),
+                const SizedBox(width: 10),
                 Text(
-                  "jH2Pn@example.com",
-                  style: TextStyle(fontSize: 12, color: Colors.grey),
+                  employeeView.email ?? "",
+                  style: const TextStyle(fontSize: 12, color: Colors.grey),
                 ),
               ],
             ),
@@ -89,13 +110,13 @@ class UserAttendInfoCard extends StatelessWidget {
             ),
             const SizedBox(height: 5),
             Text(
-              "${"work_time".tr} ${"from".tr} 8:00:00 ${"to".tr} 16:00:00",
+              "${"work_time".tr} ${"from".tr} ${widget.employeeInformation.shiftView?.startTime} ${"to".tr} ${widget.employeeInformation.shiftView?.endTime}",
               style: const TextStyle(fontSize: 12, color: Colors.grey),
             ),
             const SizedBox(height: 20),
             const LinearProgressIndicator(value: 0.5),
             const SizedBox(height: 20),
-            if (isSamePerson)
+            if (widget.isSamePerson)
               ElevatedButton(
                 onPressed: () {},
                 child: Row(
@@ -143,4 +164,6 @@ class UserAttendInfoCard extends StatelessWidget {
       ),
     );
   }
+
+
 }
