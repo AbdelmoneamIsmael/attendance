@@ -4,12 +4,11 @@ part 'employee_info.g.dart';
 
 @JsonSerializable()
 class EmployeeInformation {
-  EmployeeInformation({required this.employeeView, required this.shiftView,required this.employeesCount,required this.isManager});
+  EmployeeInformation({required this.employeeView, required this.shiftView});
 
   final EmployeeView? employeeView;
   final ShiftView? shiftView;
-  final bool? isManager;
-  final num? employeesCount;
+
 
   EmployeeInformation copyWith({
     EmployeeView? employeeView,
@@ -18,8 +17,6 @@ class EmployeeInformation {
     num ? employeesCount
   }) {
     return EmployeeInformation(
-      isManager:  isManager ?? this.isManager,
-      employeesCount: employeesCount ?? this.employeesCount,
       employeeView: employeeView ?? this.employeeView,
       shiftView: shiftView ?? this.shiftView,
     );
@@ -39,6 +36,8 @@ class EmployeeInformation {
 @JsonSerializable()
 class EmployeeView {
   EmployeeView({
+    this.isManager,
+    this.employeesCount,
     this.imageUrl,
     required this.id,
     required this.name,
@@ -69,6 +68,8 @@ class EmployeeView {
   final String? address;
   final num? gender;
   final String? imageUrl;
+    final bool? isManager;
+  final num? employeesCount;
 
   EmployeeView copyWith({
     int? id,
@@ -85,6 +86,8 @@ class EmployeeView {
     String? address,
     num? gender,
     String? imageUrl,
+       bool? isManager,
+   num? employeesCount,
   }) {
     return EmployeeView(
       imageUrl: imageUrl ?? this.imageUrl,

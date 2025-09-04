@@ -7,14 +7,14 @@ part 'employee_information_response.g.dart';
 class EmployeeInformationResponse {
   EmployeeInformationResponse({
     required this.success,
-    required this.data,
+    required this.empoyeeInfo,
     required this.message,
     required this.statusCode,
     required this.error,
   });
 
   final bool? success;
-  final EmployeeInformation? data;
+  final EmployeeInformation empoyeeInfo;
   final String? message;
   final num? statusCode;
   final dynamic error;
@@ -28,7 +28,7 @@ class EmployeeInformationResponse {
   }) {
     return EmployeeInformationResponse(
       success: success ?? this.success,
-      data: data ?? this.data,
+      empoyeeInfo: data ?? this.empoyeeInfo,
       message: message ?? this.message,
       statusCode: statusCode ?? this.statusCode,
       error: error ?? this.error,
@@ -42,7 +42,6 @@ class EmployeeInformationResponse {
 
   @override
   String toString() {
-    return "$success, $data, $message, $statusCode, $error, ";
+    return "$success, $empoyeeInfo, $message, $statusCode, $error, ";
   }
 }
-

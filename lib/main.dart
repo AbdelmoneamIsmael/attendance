@@ -1,5 +1,8 @@
 // import 'dart:html' as web;
 import 'package:attendance/app_configration.dart';
+import 'package:attendance/core/repo/employees_repo/data/employee_repo_remote_data.dart';
+import 'package:attendance/core/repo/employees_repo/repo/employee_repo.dart';
+import 'package:attendance/core/repo/employees_repo/repo/get_employee_repo_imple.dart';
 import 'package:attendance/core/util/cache/cache_helper.dart';
 import 'package:attendance/core/util/functions/initialize_Localization.dart';
 import 'package:attendance/core/util/networking/api_server.dart';
@@ -43,6 +46,11 @@ initialize() async {
   Get.lazyPut<LoginServices>(
     () => LoginServicesImple(
       remoteLoginDataSource: RemoteLoginDataSourceImple(ApiServer().dio),
+    ),
+  );
+  Get.lazyPut<EmployeeRepo>(
+    () => GetEmployeeRepoImple(
+      employeeRepoRemoteData: EmployeeRepoRemoteDataImple(ApiServer().dio),
     ),
   );
 }

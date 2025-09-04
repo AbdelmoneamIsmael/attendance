@@ -13,13 +13,11 @@ class LoginServicesImple extends LoginServices {
   LoginServicesImple({required this.remoteLoginDataSource});
   @override
   Future<Either<Failure, EmployeeInformation>> getLoginEmployeeInfo({
-    required int userID
+    required int userID,
   }) async {
     try {
-      var results = await remoteLoginDataSource.getLoginEmployeeInfo(
-         userID,
-      );
-      return Right(results.data!);
+      var results = await remoteLoginDataSource.getLoginEmployeeInfo(userID);
+      return Right(results.empoyeeInfo!);
     } catch (e) {
       if (e is DioException) {
         return Left(ServerFailure.fromDioError(e));

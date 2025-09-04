@@ -14,8 +14,6 @@ EmployeeInformation _$EmployeeInformationFromJson(Map<String, dynamic> json) =>
       shiftView: json['shiftView'] == null
           ? null
           : ShiftView.fromJson(json['shiftView'] as Map<String, dynamic>),
-      employeesCount: json['employeesCount'] as num?,
-      isManager: json['isManager'] as bool?,
     );
 
 Map<String, dynamic> _$EmployeeInformationToJson(
@@ -23,11 +21,11 @@ Map<String, dynamic> _$EmployeeInformationToJson(
     <String, dynamic>{
       'employeeView': instance.employeeView,
       'shiftView': instance.shiftView,
-      'isManager': instance.isManager,
-      'employeesCount': instance.employeesCount,
     };
 
 EmployeeView _$EmployeeViewFromJson(Map<String, dynamic> json) => EmployeeView(
+      isManager: json['isManager'] as bool?,
+      employeesCount: json['employeesCount'] as num?,
       imageUrl: json['imageUrl'] as String?,
       id: (json['id'] as num?)?.toInt(),
       name: json['name'] as String?,
@@ -60,6 +58,8 @@ Map<String, dynamic> _$EmployeeViewToJson(EmployeeView instance) =>
       'address': instance.address,
       'gender': instance.gender,
       'imageUrl': instance.imageUrl,
+      'isManager': instance.isManager,
+      'employeesCount': instance.employeesCount,
     };
 
 ShiftView _$ShiftViewFromJson(Map<String, dynamic> json) => ShiftView(
