@@ -20,13 +20,13 @@ class UserAttendInfoCard extends StatefulWidget {
 }
 
 class _UserAttendInfoCardState extends State<UserAttendInfoCard> {
- late DateTime startTime ;
- late DateTime endTime ;
+  late DateTime startTime;
+  late DateTime endTime;
   @override
   void initState() {
-    
     super.initState();
   }
+
   @override
   Widget build(BuildContext context) {
     final employeeView = widget.employeeInformation.employeeView;
@@ -51,15 +51,16 @@ class _UserAttendInfoCardState extends State<UserAttendInfoCard> {
         ),
         child: Column(
           children: [
-            // const CachedImage(
-            //   width: 100,
-            //   height: 100,
-            //   radius: 100,
-            //   elevation: 4,
-            //   url:
-            //       "https://media.istockphoto.com/id/1042466484/photo/smiling-handsome-man-in-gray-t-shirt-standing-with-crossed-arms-isolated-on-grey-background.jpg?s=612x612&w=0&k=20&c=m0Xz8b_yc1BFcELffDrLjdFsuqICZCVz_oAN4B87orY=",
-            // ),
-            AvatarView(name: employeeView!.name ?? "AL"),
+            if (employeeView!.imageUrl != null &&
+                employeeView.imageUrl!.isNotEmpty)
+              CachedImage(
+                width: 100,
+                height: 100,
+                radius: 100,
+                elevation: 4,
+                url: employeeView.imageUrl ?? "",
+              ),
+            AvatarView(name: employeeView.name ?? "AL"),
             const SizedBox(height: 20),
             Text(
               employeeView.name ?? "AL",
@@ -164,6 +165,4 @@ class _UserAttendInfoCardState extends State<UserAttendInfoCard> {
       ),
     );
   }
-
-
 }
