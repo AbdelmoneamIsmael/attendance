@@ -11,14 +11,15 @@ import 'package:get/get.dart';
 
 class HomeController extends GetxController {
   late EmployeeInformation employeeInformation;
-  final ScrollController scrollController = ScrollController();
   final employeeRepo = Get.find<EmployeeRepo>();
-  TextEditingController searchController = TextEditingController();
-  var isThereMoreItems = true;
-  bool isLoading = false;
 
   //pagination
   int pageIndex = 1;
+  TextEditingController searchController = TextEditingController();
+
+  final ScrollController scrollController = ScrollController();
+  var isThereMoreItems = true;
+  bool isLoading = false;
   int pageSize = 10;
   EmployeeSearchResult? employeeSearchResult;
   List<EmployeeCardEntity> employees = [];

@@ -36,6 +36,10 @@ Map<String, dynamic> _$EmployeeSearchResultToJson(
 
 EmployeeCardEntity _$EmployeeCardEntityFromJson(Map<String, dynamic> json) =>
     EmployeeCardEntity(
+      iAttend: json['iAttend'] as bool?,
+      endTime: json['endTime'] as String?,
+      startTime: json['startTime'] as String?,
+      shiftName: json['shiftName'] as String?,
       id: (json['id'] as num?)?.toInt(),
       name: json['name'] as String?,
       email: json['email'] as String?,
@@ -72,6 +76,10 @@ Map<String, dynamic> _$EmployeeCardEntityToJson(EmployeeCardEntity instance) =>
       'address': instance.address,
       'gender': instance.gender,
       'imageUrl': instance.imageUrl,
+      'endTime': instance.endTime,
+      'startTime': instance.startTime,
+      'shiftName': instance.shiftName,
       'isManager': instance.isManager,
       'employeesCount': instance.employeesCount,
+      'iAttend': instance.iAttend,
     };

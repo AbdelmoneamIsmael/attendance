@@ -39,7 +39,9 @@ class PersonManageOnList extends StatelessWidget {
                 employees[index].jobGrade ?? "AI",
                 style: const TextStyle(fontWeight: FontWeight.w600),
               ),
-              Text("${"work_time".tr} ${"from".tr} 5:00 PM ${"to".tr} 6:00 PM"),
+              Text(
+                "${"work_time".tr} ${"from".tr} ${employees[index].startTime} ${"to".tr} ${employees[index].endTime}",
+              ),
             ],
           ),
           subtitleTextStyle: const TextStyle(
@@ -51,7 +53,10 @@ class PersonManageOnList extends StatelessWidget {
             crossAxisAlignment: CrossAxisAlignment.center,
             mainAxisAlignment: MainAxisAlignment.spaceAround,
             children: [
-              Icon(Icons.circle, color: index == 2 ? Colors.red : Colors.green),
+              Icon(
+                Icons.circle,
+                color: employees[index].iAttend! ? Colors.green : Colors.red,
+              ),
               employees[index].isManager == true
                   ? const Icon(Icons.groups_2_outlined)
                   : const SizedBox(),

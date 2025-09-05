@@ -60,6 +60,10 @@ class EmployeeSearchResult {
 @JsonSerializable()
 class EmployeeCardEntity {
   EmployeeCardEntity({
+    required this.iAttend,
+    required this.endTime,
+    required this.startTime,
+    required this.shiftName,
     required this.id,
     required this.name,
     required this.email,
@@ -92,8 +96,13 @@ class EmployeeCardEntity {
   final String? address;
   final num? gender;
   final String? imageUrl;
+  final String? endTime;
+  final String? startTime;
+  final String? shiftName;
+
   final bool? isManager;
   final num? employeesCount;
+  final bool? iAttend;
 
   EmployeeCardEntity copyWith({
     int? id,
@@ -112,8 +121,16 @@ class EmployeeCardEntity {
     String? imageUrl,
     bool? isManager,
     num? employeesCount,
+    bool? iAttend,
+    String? endTime,
+    String? startTime,
+    String? shiftName,
   }) {
     return EmployeeCardEntity(
+      iAttend: iAttend ?? this.iAttend,
+      endTime: endTime ?? this.endTime,
+      startTime: startTime ?? this.startTime,
+      shiftName: shiftName ?? this.shiftName,
       id: id ?? this.id,
       name: name ?? this.name,
       email: email ?? this.email,
