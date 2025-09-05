@@ -12,16 +12,18 @@ import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:flutter_svg/svg.dart';
 import 'package:get/get.dart';
 
-class ProfileScreen extends GetView<ProfileController> {
+class ProfileScreen extends StatelessWidget {
   const ProfileScreen({super.key});
 
   @override
   Widget build(BuildContext context) {
+    final employeeId = Get.parameters['employeeID']!;
+    final controller = Get.find<ProfileController>(tag: employeeId);
     return Scaffold(
       appBar: AppBar(title: const Text('ProfileScreen')),
 
       body: GetBuilder<ProfileController>(
-        init: ProfileController(),
+        tag: employeeId,
         initState: (_) {},
         builder: (_) {
           return RefreshIndicator(
