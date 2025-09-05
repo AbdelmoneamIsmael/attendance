@@ -43,8 +43,10 @@ class AppPages {
       transition: Transition.cupertino,
     ),
     GetPage(
-      name: PageKeys.profileScreen,
-      page: () => const ProfileScreen(),
+      name: "${PageKeys.profileScreen}/:employeeID",
+      page: () {
+        return const ProfileScreen();
+      },
       binding: ProfileBinding(),
       transition: Transition.cupertino,
     ),

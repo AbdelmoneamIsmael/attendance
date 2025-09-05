@@ -22,7 +22,7 @@ class EmployeeSearchResult {
   final num? itemsCount;
   final bool? hasPreviousPage;
   final bool? hasNextPage;
-  final List<Datum>? data;
+  final List<EmployeeCardEntity>? data;
 
   EmployeeSearchResult copyWith({
     num? pageIndex,
@@ -32,7 +32,7 @@ class EmployeeSearchResult {
     num? itemsCount,
     bool? hasPreviousPage,
     bool? hasNextPage,
-    List<Datum>? data,
+    List<EmployeeCardEntity>? data,
   }) {
     return EmployeeSearchResult(
       pageIndex: pageIndex ?? this.pageIndex,
@@ -53,13 +53,13 @@ class EmployeeSearchResult {
 
   @override
   String toString() {
-    return "$pageIndex, $pageSize, $count, $pagesCount, $itemsCount, $hasPreviousPage, $hasNextPage, $data, ";
+    return "page index: $pageIndex, page size: $pageSize, count: $count, pagesCount: $pagesCount, itemsCount: $itemsCount, hasPreviousPage: $hasPreviousPage, hasNextPage: $hasNextPage, data: $data";
   }
 }
 
 @JsonSerializable()
-class Datum {
-  Datum({
+class EmployeeCardEntity {
+  EmployeeCardEntity({
     required this.id,
     required this.name,
     required this.email,
@@ -95,7 +95,7 @@ class Datum {
   final bool? isManager;
   final num? employeesCount;
 
-  Datum copyWith({
+  EmployeeCardEntity copyWith({
     int? id,
     String? name,
     String? email,
@@ -113,7 +113,7 @@ class Datum {
     bool? isManager,
     num? employeesCount,
   }) {
-    return Datum(
+    return EmployeeCardEntity(
       id: id ?? this.id,
       name: name ?? this.name,
       email: email ?? this.email,
@@ -133,9 +133,10 @@ class Datum {
     );
   }
 
-  factory Datum.fromJson(Map<String, dynamic> json) => _$DatumFromJson(json);
+  factory EmployeeCardEntity.fromJson(Map<String, dynamic> json) =>
+      _$EmployeeCardEntityFromJson(json);
 
-  Map<String, dynamic> toJson() => _$DatumToJson(this);
+  Map<String, dynamic> toJson() => _$EmployeeCardEntityToJson(this);
 
   @override
   String toString() {

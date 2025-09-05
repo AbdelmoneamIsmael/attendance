@@ -10,7 +10,7 @@ import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:get/get.dart';
 
 class ProfileScreen extends GetView<ProfileController> {
-  const ProfileScreen({super.key});
+  const ProfileScreen({super.key, });
 
   @override
   Widget build(BuildContext context) {
@@ -52,7 +52,7 @@ class ProfileScreen extends GetView<ProfileController> {
 
                 child: AttendanceListWidget(),
               ),
-              if (controller.haveGroup)
+              // if (controller.haveGroup)
                 SliverToBoxAdapter(
                   child: Padding(
                     padding: const EdgeInsets.symmetric(
@@ -73,7 +73,7 @@ class ProfileScreen extends GetView<ProfileController> {
                     ),
                   ),
                 ),
-              if (controller.haveGroup) const PersonManageOnList(),
+               const PersonManageOnList(employees: []),
             ],
           );
         },

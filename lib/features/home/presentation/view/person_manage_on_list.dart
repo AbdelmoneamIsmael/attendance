@@ -1,37 +1,44 @@
+import 'package:attendance/core/models/search_employee/response_model/employee_search_response_model.dart';
 import 'package:attendance/core/routes/pages_keys.dart';
+import 'package:attendance/core/widgets/avatar_view.dart';
 import 'package:attendance/core/widgets/cashed_images.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:get/get.dart';
 
 class PersonManageOnList extends StatelessWidget {
-  const PersonManageOnList({super.key});
-
+  const PersonManageOnList({super.key, required this.employees});
+  final List<EmployeeCardEntity> employees;
   @override
   Widget build(BuildContext context) {
     return SliverPadding(
       padding: const EdgeInsets.symmetric(horizontal: 22, vertical: 10).w,
       sliver: SliverList.separated(
         itemBuilder: (context, index) => ListTile(
-          onTap: () => Get.toNamed(
-            PageKeys.profileScreen,
-            arguments: {"haveGroup": index == 1},
-          ),
+          onTap: () =>
+              Get.toNamed("${PageKeys.profileScreen}/${employees[index].id}"),
           contentPadding: const EdgeInsets.all(14).w,
-          leading: const CachedImage(
-            height: 60,
-            width: 60,
-            radius: 50,
-            elevation: 2,
-            url:
-                "https://cdn.prod.website-files.com/5fbb9b89508062592a9731b1/6448c1ce35d6ffe59e4d6f46_GettyImages-1399565382.jpg",
-          ),
+          leading: employees[index].imageUrl != null
+              ? CachedImage(
+                  height: 60.r,
+                  width: 60.r,
+                  radius: 50.r,
+                  elevation: 2,
+                  url: employees[index].imageUrl!,
+                )
+              : AvatarView(name: employees[index].name ?? "AI", raduis: 25.r),
           isThreeLine: true,
-          title: const Text("Abdelmoneam Ismael"),
+          title: Text(
+            employees[index].name ?? "AI",
+            style: const TextStyle(fontWeight: FontWeight.w600),
+          ),
           subtitle: Column(
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [
-              const Text("Flutter Developer"),
+              Text(
+                employees[index].jobGrade ?? "AI",
+                style: const TextStyle(fontWeight: FontWeight.w600),
+              ),
               Text("${"work_time".tr} ${"from".tr} 5:00 PM ${"to".tr} 6:00 PM"),
             ],
           ),
@@ -45,7 +52,7 @@ class PersonManageOnList extends StatelessWidget {
             mainAxisAlignment: MainAxisAlignment.spaceAround,
             children: [
               Icon(Icons.circle, color: index == 2 ? Colors.red : Colors.green),
-              index == 1
+              employees[index].isManager == true
                   ? const Icon(Icons.groups_2_outlined)
                   : const SizedBox(),
             ],
@@ -56,7 +63,7 @@ class PersonManageOnList extends StatelessWidget {
           ),
         ),
         separatorBuilder: (context, index) => const SizedBox(height: 20),
-        itemCount: 10,
+        itemCount: employees.isEmpty ? 0 : employees.length,
       ),
     );
   }

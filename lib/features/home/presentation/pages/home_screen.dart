@@ -46,6 +46,7 @@ class HomeScreen extends GetView<HomeController> {
         initState: (_) {},
         builder: (_) {
           return CustomScrollView(
+            controller: controller.scrollController,
             slivers: [
               SliverToBoxAdapter(
                 child: UserAttendInfoCard(
@@ -75,44 +76,65 @@ class HomeScreen extends GetView<HomeController> {
 
                 child: AttendanceListWidget(),
               ),
-              SliverToBoxAdapter(
-                child: Padding(
-                  padding: const EdgeInsets.symmetric(
-                    horizontal: 22,
-                    vertical: 20,
-                  ).w,
-                  child: Column(
-                    crossAxisAlignment: CrossAxisAlignment.start,
-                    children: [
-                      Text(
-                        "depart_employee".tr,
-                        style: const TextStyle(
-                          fontSize: 20,
-                          fontWeight: FontWeight.bold,
+              if (controller.employeeInformation.employeeView!.isManager ==
+                  true)
+                SliverToBoxAdapter(
+                  child: Padding(
+                    padding: const EdgeInsets.symmetric(
+                      horizontal: 22,
+                      vertical: 20,
+                    ).w,
+                    child: Column(
+                      crossAxisAlignment: CrossAxisAlignment.start,
+                      children: [
+                        Text(
+                          "depart_employee".tr,
+                          style: const TextStyle(
+                            fontSize: 20,
+                            fontWeight: FontWeight.bold,
+                          ),
                         ),
-                      ),
-                    ],
-                  ),
-                ),
-              ),
-              SliverToBoxAdapter(
-                child: Padding(
-                  padding: const EdgeInsets.symmetric(
-                    horizontal: 22,
-                    vertical: 10,
-                  ).w,
-                  child: AppTextField(
-                    hint: "search".tr,
-                    prefixIcon: SvgPicture.asset(
-                      Assets.icons.search,
-                      width: 20,
-                      height: 20,
-                      fit: BoxFit.scaleDown,
+                      ],
                     ),
                   ),
                 ),
+              if (controller.employeeInformation.employeeView!.isManager ==
+                  true)
+                SliverToBoxAdapter(
+                  child: Padding(
+                    padding: const EdgeInsets.symmetric(
+                      horizontal: 22,
+                      vertical: 10,
+                    ).w,
+                    child: AppTextField(
+                      controller: controller.searchController,
+                      hint: "search".tr,
+                      onChanged: (value) => controller.onSearch(),
+                      prefixIcon: SvgPicture.asset(
+                        Assets.icons.search,
+                        width: 20,
+                        height: 20,
+                        fit: BoxFit.scaleDown,
+                      ),
+                    ),
+                  ),
+                ),
+              if (controller.employeeInformation.employeeView!.isManager ==
+                  true)
+                PersonManageOnList(employees: controller.employees),
+              if (controller.isLoading)
+                const SliverFillRemaining(
+                  hasScrollBody: false,
+                  child: Center(child: CircularProgressIndicator.adaptive()),
+                ),
+              if (controller.employeeInformation.employeeView!.isManager ==
+                  true)
+                const SliverToBoxAdapter(child: SizedBox(height: 100)),
+              SliverToBoxAdapter(
+                child: SizedBox(
+                  height: MediaQuery.of(context).viewInsets.bottom,
+                ),
               ),
-              const PersonManageOnList(),
             ],
           );
         },

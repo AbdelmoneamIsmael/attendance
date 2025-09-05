@@ -17,7 +17,7 @@ EmployeeSearchResult _$EmployeeSearchResultFromJson(
       hasPreviousPage: json['hasPreviousPage'] as bool?,
       hasNextPage: json['hasNextPage'] as bool?,
       data: (json['data'] as List<dynamic>?)
-          ?.map((e) => Datum.fromJson(e as Map<String, dynamic>))
+          ?.map((e) => EmployeeCardEntity.fromJson(e as Map<String, dynamic>))
           .toList(),
     );
 
@@ -34,7 +34,8 @@ Map<String, dynamic> _$EmployeeSearchResultToJson(
       'data': instance.data,
     };
 
-Datum _$DatumFromJson(Map<String, dynamic> json) => Datum(
+EmployeeCardEntity _$EmployeeCardEntityFromJson(Map<String, dynamic> json) =>
+    EmployeeCardEntity(
       id: (json['id'] as num?)?.toInt(),
       name: json['name'] as String?,
       email: json['email'] as String?,
@@ -55,7 +56,8 @@ Datum _$DatumFromJson(Map<String, dynamic> json) => Datum(
       employeesCount: json['employeesCount'] as num?,
     );
 
-Map<String, dynamic> _$DatumToJson(Datum instance) => <String, dynamic>{
+Map<String, dynamic> _$EmployeeCardEntityToJson(EmployeeCardEntity instance) =>
+    <String, dynamic>{
       'id': instance.id,
       'name': instance.name,
       'email': instance.email,
