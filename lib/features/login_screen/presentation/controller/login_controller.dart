@@ -205,7 +205,7 @@ class LoginController extends GetxController {
       (l) => UIHelper.showSnakBar(title: "Error", message: l.message),
       (r) async {
         Get.find<AuthController>().initializeEmployeeInfo(r);
-        Get.toNamed(PageKeys.homeScreen);
+        Get.offAndToNamed(PageKeys.homeScreen);
       },
     );
   }
