@@ -10,8 +10,8 @@ EmployeeInformationResponse _$EmployeeInformationResponseFromJson(
         Map<String, dynamic> json) =>
     EmployeeInformationResponse(
       success: json['success'] as bool?,
-      empoyeeInfo: EmployeeInformation.fromJson(
-          json['empoyeeInfo'] as Map<String, dynamic>),
+      empoyeeInfo:
+          EmployeeInformation.fromJson(json['data'] as Map<String, dynamic>),
       message: json['message'] as String?,
       statusCode: json['statusCode'] as num?,
       error: json['error'],
@@ -21,7 +21,7 @@ Map<String, dynamic> _$EmployeeInformationResponseToJson(
         EmployeeInformationResponse instance) =>
     <String, dynamic>{
       'success': instance.success,
-      'empoyeeInfo': instance.empoyeeInfo,
+      'data': instance.empoyeeInfo,
       'message': instance.message,
       'statusCode': instance.statusCode,
       'error': instance.error,

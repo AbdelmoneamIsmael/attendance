@@ -14,6 +14,7 @@ class EmployeeInformationResponse {
   });
 
   final bool? success;
+  @JsonKey(name: 'data')
   final EmployeeInformation empoyeeInfo;
   final String? message;
   final num? statusCode;
@@ -21,14 +22,14 @@ class EmployeeInformationResponse {
 
   EmployeeInformationResponse copyWith({
     bool? success,
-    EmployeeInformation? data,
+     EmployeeInformation? data,
     String? message,
     num? statusCode,
-    dynamic? error,
+    dynamic error,
   }) {
     return EmployeeInformationResponse(
       success: success ?? this.success,
-      empoyeeInfo: data ?? this.empoyeeInfo,
+      empoyeeInfo: data ?? empoyeeInfo,
       message: message ?? this.message,
       statusCode: statusCode ?? this.statusCode,
       error: error ?? this.error,
