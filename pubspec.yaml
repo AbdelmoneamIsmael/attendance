@@ -41,6 +41,7 @@ dependencies:
   flutter:
     sdk: flutter
   flutter_blurhash: ^0.9.1
+  flutter_cached_pdfview: ^0.4.3
   flutter_local_notifications: ^19.4.1
   flutter_native_splash: ^2.4.4
   flutter_screenutil: ^5.9.3

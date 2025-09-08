@@ -191,6 +191,9 @@ class $AssetsIconsGen {
   /// File path: assets/icons/notification.svg
   String get notification => 'assets/icons/notification.svg';
 
+  /// File path: assets/icons/pdf_icon.svg
+  String get pdfIcon => 'assets/icons/pdf_icon.svg';
+
   /// File path: assets/icons/pill.svg
   String get pill => 'assets/icons/pill.svg';
 
@@ -305,6 +308,7 @@ class $AssetsIconsGen {
         noRequests,
         noUser,
         notification,
+        pdfIcon,
         pill,
         privacy,
         profile,

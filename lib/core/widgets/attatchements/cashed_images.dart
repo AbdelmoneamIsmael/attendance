@@ -38,34 +38,7 @@ class CachedImage extends StatelessWidget {
                 showDialog(
                   context: context,
                   builder: (context) {
-                    return Container(
-                      height: MediaQuery.of(context).size.height,
-                      width: MediaQuery.of(context).size.width,
-                      color: Colors.black,
-                      child: Column(
-                        crossAxisAlignment: CrossAxisAlignment.start,
-                        children: [
-                          IconButton(
-                            onPressed: () {
-                              Navigator.pop(context);
-                            },
-                            icon: const Icon(Icons.close, color: Colors.white),
-                          ),
-                          SizedBox(height: 10.h),
-                          Expanded(
-                            child: AspectRatio(
-                              aspectRatio: 1,
-                              child: PhotoView(
-                                imageProvider: CachedNetworkImageProvider(
-                                  "${url.contains("http") ? "" : prodBaseURl}$url",
-                                ),
-                              ),
-                            ),
-                          ),
-                          SizedBox(height: 10.h),
-                        ],
-                      ),
-                    );
+                    return ShowImageDialog(url: url);
                   },
                 );
               }
@@ -94,6 +67,47 @@ class CachedImage extends StatelessWidget {
                 errorWidget ?? const Icon(Icons.error),
           ),
         ),
+      ),
+    );
+  }
+}
+
+class ShowImageDialog extends StatelessWidget {
+  const ShowImageDialog({
+    super.key,
+    required this.url,
+  });
+
+  final String url;
+
+  @override
+  Widget build(BuildContext context) {
+    return Container(
+      height: MediaQuery.of(context).size.height,
+      width: MediaQuery.of(context).size.width,
+      color: Colors.black,
+      child: Column(
+        crossAxisAlignment: CrossAxisAlignment.start,
+        children: [
+          IconButton(
+            onPressed: () {
+              Navigator.pop(context);
+            },
+            icon: const Icon(Icons.close, color: Colors.white),
+          ),
+          SizedBox(height: 10.h),
+          Expanded(
+            child: AspectRatio(
+              aspectRatio: 1,
+              child: PhotoView(
+                imageProvider: CachedNetworkImageProvider(
+                  "${url.contains("http") ? "" : prodBaseURl}$url",
+                ),
+              ),
+            ),
+          ),
+          SizedBox(height: 10.h),
+        ],
       ),
     );
   }

@@ -1,7 +1,7 @@
 import 'package:attendance/core/models/search_employee/response_model/employee_search_response_model.dart';
 import 'package:attendance/core/routes/pages_keys.dart';
 import 'package:attendance/core/widgets/avatar_view.dart';
-import 'package:attendance/core/widgets/cashed_images.dart';
+import 'package:attendance/core/widgets/attatchements/cashed_images.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:get/get.dart';

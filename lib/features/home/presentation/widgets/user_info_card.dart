@@ -1,6 +1,6 @@
 import 'package:attendance/core/models/account_model/employee_info.dart';
 import 'package:attendance/core/widgets/avatar_view.dart';
-import 'package:attendance/core/widgets/cashed_images.dart';
+import 'package:attendance/core/widgets/attatchements/cashed_images.dart';
 import 'package:attendance/gen/assets.gen.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/svg.dart';
