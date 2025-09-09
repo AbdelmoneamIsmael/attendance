@@ -1,8 +1,10 @@
 import 'package:attendance/core/widgets/attatchements/cashed_images.dart';
 import 'package:attendance/core/widgets/attatchements/pdf_widget.dart';
+import 'package:attendance/core/widgets/attatchements/vedio_widget.dart';
 import 'package:attendance/features/notification/domain/entities/notification_entity.dart';
 import 'package:attendance/gen/assets.gen.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:flutter_svg/svg.dart';
 import 'package:intl/intl.dart';
 
@@ -53,8 +55,25 @@ class NotificationWidget extends StatelessWidget {
                       style: const TextStyle(color: Colors.grey),
                     ),
                     const SizedBox(height: 8),
-                    getAttatchmentWidget(url: notification.attatchments![0]),
-                    getAttatchmentWidget(url: notification.attatchments![1]),
+                    if (notification.attatchments!.isNotEmpty)
+                      SizedBox(
+                        height: 100.h,
+                        child: SingleChildScrollView(
+                          scrollDirection: Axis.horizontal,
+                          child: Row(
+                            spacing: 16,
+                            children: List.generate(
+                              notification.attatchments!.length,
+                              (index) => AspectRatio(
+                                aspectRatio: 1,
+                                child: getAttatchmentWidget(
+                                  url: notification.attatchments![index],
+                                ),
+                              ),
+                            ),
+                          ),
+                        ),
+                      ),
                   ],
                 ),
               ),
@@ -68,15 +87,11 @@ class NotificationWidget extends StatelessWidget {
   Widget getAttatchmentWidget({required String url}) {
     switch (getAttatchmentType(url: url)) {
       case "jpg" || "jpeg" || "png" || "gif" || "webp":
-        return CachedImage(
-          url: url,
-          width: 100,
-          height: 100,
-          radius: 20,
-          showImageOnTap: true,
-        );
+        return CachedImage(url: url, radius: 20, showImageOnTap: true);
       case "pdf":
         return PdfWidget(url: url, showImageOnTap: true);
+      case "mp4":
+        return VideoWidget(url: url);
       default:
         return const SizedBox();
     }
