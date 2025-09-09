@@ -61,10 +61,23 @@ class ProfileScreen extends StatelessWidget {
                       ),
                       const SliverToBoxAdapter(child: SizedBox(height: 20)),
 
-                      const SliverFillRemaining(
+                      SliverFillRemaining(
                         hasScrollBody: false,
 
-                        child: AttendanceListWidget(attendances: []),
+                        child: controller.gettingAttendance
+                            ? const Center(
+                                child: CircularProgressIndicator.adaptive(),
+                              )
+                            : AttendanceListWidget(
+                                attendances:
+                                    controller.attendancesDayEvent.isNotEmpty
+                                    ? controller
+                                              .attendancesDayEvent
+                                              .first
+                                              .attendances ??
+                                          []
+                                    : [],
+                              ),
                       ),
                       if (controller
                           .employeeInformation!
