@@ -40,14 +40,14 @@ class UserInfoModel {
     int? id,
     String? username,
     String? email,
-    dynamic? phoneNumber,
+    dynamic phoneNumber,
     String? deviceToken,
-    dynamic? imageUrl,
+    dynamic imageUrl,
     String? token,
     DateTime? expiresOn,
     String? refreshToken,
     DateTime? refreshTokenExpiration,
-    dynamic? statusCode,
+    dynamic statusCode,
   }) {
     return UserInfoModel(
       message: message ?? this.message,

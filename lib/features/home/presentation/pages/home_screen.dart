@@ -65,16 +65,24 @@ class HomeScreen extends GetView<HomeController> {
                     title: "attendance_list".tr,
                     trailing: "show_all".tr,
                     onTap: () {
-                      Get.toNamed(PageKeys.allAttendCalender);
+                      Get.toNamed(
+                        "${PageKeys.allAttendCalender}/${controller.employeeInformation.employeeView!.id}",
+                      );
                     },
                   ),
                 ),
               ),
               const SliverToBoxAdapter(child: SizedBox(height: 20)),
-              const SliverFillRemaining(
+              SliverFillRemaining(
                 hasScrollBody: false,
 
-                child: AttendanceListWidget(),
+                child: controller.gettingAttendance
+                    ? const Center(child: CircularProgressIndicator.adaptive())
+                    : AttendanceListWidget(
+                        attendances:
+                            controller.attendancesDayEvent.first.attendances ??
+                            [],
+                      ),
               ),
               if (controller.employeeInformation.employeeView!.isManager ==
                   true)

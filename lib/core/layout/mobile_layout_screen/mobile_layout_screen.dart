@@ -1,7 +1,6 @@
 import 'package:attendance/core/layout/app_core_design.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
-import 'package:attendance/core/layout/app_core_design.dart';
 
 class MobileLayOut extends StatelessWidget {
   const MobileLayOut({super.key});

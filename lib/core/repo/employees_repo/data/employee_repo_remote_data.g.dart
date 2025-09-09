@@ -89,6 +89,41 @@ class _EmployeeRepoRemoteDataImple implements EmployeeRepoRemoteDataImple {
     return _value;
   }
 
+  @override
+  Future<AttendanceResponseModel> getEmployeeAttendances(
+      Map<String, dynamic> attendanceParams) async {
+    final _extra = <String, dynamic>{};
+    final queryParameters = <String, dynamic>{};
+    final _headers = <String, dynamic>{};
+    final _data = <String, dynamic>{};
+    _data.addAll(attendanceParams);
+    final _options = _setStreamType<AttendanceResponseModel>(Options(
+      method: 'POST',
+      headers: _headers,
+      extra: _extra,
+    )
+        .compose(
+          _dio.options,
+          '/api/Employees/GetAllEmployeesAttendance',
+          queryParameters: queryParameters,
+          data: _data,
+        )
+        .copyWith(
+            baseUrl: _combineBaseUrls(
+          _dio.options.baseUrl,
+          baseUrl,
+        )));
+    final _result = await _dio.fetch<Map<String, dynamic>>(_options);
+    late AttendanceResponseModel _value;
+    try {
+      _value = AttendanceResponseModel.fromJson(_result.data!);
+    } on Object catch (e, s) {
+      errorLogger?.logError(e, s, _options);
+      rethrow;
+    }
+    return _value;
+  }
+
   RequestOptions _setStreamType<T>(RequestOptions requestOptions) {
     if (T != dynamic &&
         !(requestOptions.responseType == ResponseType.bytes ||

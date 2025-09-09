@@ -1,4 +1,3 @@
-import 'package:attendance/core/controllers/auth_controller/auth_controller.dart';
 import 'package:attendance/core/routes/pages_keys.dart';
 import 'package:attendance/core/widgets/app_text_field.dart';
 import 'package:attendance/core/widgets/title_tale.dart';
@@ -53,7 +52,9 @@ class ProfileScreen extends StatelessWidget {
                             title: "attendance_list".tr,
                             trailing: "show_all".tr,
                             onTap: () {
-                              Get.toNamed(PageKeys.allAttendCalender);
+                              Get.toNamed(
+                                "${PageKeys.allAttendCalender}/$employeeId",
+                              );
                             },
                           ),
                         ),
@@ -63,7 +64,7 @@ class ProfileScreen extends StatelessWidget {
                       const SliverFillRemaining(
                         hasScrollBody: false,
 
-                        child: AttendanceListWidget(),
+                        child: AttendanceListWidget(attendances: []),
                       ),
                       if (controller
                           .employeeInformation!

@@ -3,11 +3,9 @@ import 'package:attendance/core/controllers/app_controller/app_bindings.dart';
 import 'package:attendance/core/controllers/app_controller/app_controller.dart';
 import 'package:attendance/core/controllers/app_controller/language_controller.dart';
 import 'package:attendance/core/const/app_const.dart';
-import 'package:attendance/core/routes/pages_keys.dart';
-import 'package:attendance/core/util/functions/initialize_Localization.dart';
+import 'package:attendance/core/util/functions/initialize_localization.dart';
 import 'package:flutter/material.dart';
 import 'package:attendance/core/routes/page_routes.dart';
-import 'package:get/get_core/src/get_main.dart';
 import 'package:get/get_navigation/src/root/get_material_app.dart';
 import 'package:get/get_state_manager/get_state_manager.dart';
 

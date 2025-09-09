@@ -1,7 +1,5 @@
 import 'package:attendance/core/models/language_model.dart';
 import 'package:attendance/core/routes/pages_keys.dart';
-import 'package:attendance/core/util/networking/firebase_connection.dart';
-import 'package:flutter/cupertino.dart';
 
 const kRefreshToken = "refreshToken";
 const prodBaseURl = "https://hr-api.runasp.net";

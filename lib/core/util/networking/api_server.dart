@@ -85,7 +85,7 @@ class ApiServer extends ApiRepo {
     required String uri,
     Map<String, String>? additionalHeaders,
   }) async {
-    String url = "${prodBaseURl}$uri";
+    String url = "$prodBaseURl$uri";
 
     _dio!.options.headers = additionalHeaders ?? {};
 
@@ -115,7 +115,7 @@ class ApiServer extends ApiRepo {
     required Object? data,
     Map<String, String>? additionalHeaders,
   }) async {
-    String url = "${prodBaseURl}$endPoint";
+    String url = "$prodBaseURl$endPoint";
     _dio?.options.headers =
         additionalHeaders ?? {"Content-Type": "application/json"};
     var response = await _dio!.post(url, data: data);
@@ -137,7 +137,7 @@ class ApiServer extends ApiRepo {
       "Authorization": "Bearer $token",
       "Content-Type": contentType ?? "application/json",
     });
-    String url = "${prodBaseURl}$endPoint";
+    String url = "$prodBaseURl$endPoint";
     _dio?.options.headers = headers;
     var response = await _dio!.delete(url, data: data);
     return response.data;
@@ -149,7 +149,7 @@ class ApiServer extends ApiRepo {
     required Object? data,
     String? contentType,
   }) async {
-    String url = "${prodBaseURl}$endPoint";
+    String url = "$prodBaseURl$endPoint";
     Map<String, String> headers = {
       "Content-Type": contentType ?? "application/json",
     };

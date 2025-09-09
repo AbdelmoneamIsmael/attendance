@@ -1,5 +1,7 @@
 import 'package:attendance/core/errors/error_class.dart';
 import 'package:attendance/core/models/account_model/employee_info.dart';
+import 'package:attendance/core/models/attendance_events/attendance_params.dart';
+import 'package:attendance/core/models/attendance_events/attendance_response_model.dart';
 import 'package:attendance/core/models/search_employee/params/search_employee_params.dart';
 import 'package:attendance/core/models/search_employee/response_model/employee_search_response_model.dart';
 import 'package:attendance/core/repo/employees_repo/data/employee_repo_remote_data.dart';
@@ -35,6 +37,19 @@ class GetEmployeeRepoImple extends EmployeeRepo {
   }) async{
     try{
       var results = await employeeRepoRemoteData.getSubEmployeesData(searchParams.toJson());
+      return Right(results);
+    }catch(e){
+      if(e is DioException){
+        return Left(ServerFailure.fromDioError(e));
+      }
+      return Left(ServerFailure(e.toString()));
+    }
+  }
+
+  @override
+  Future<Either<Failure, AttendanceResponseModel>> getEmployeeAttendances({required AttendanceParams attendanceParams}) async {
+       try{
+      var results = await employeeRepoRemoteData.getEmployeeAttendances(attendanceParams.toJson());
       return Right(results);
     }catch(e){
       if(e is DioException){

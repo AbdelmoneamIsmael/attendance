@@ -1,11 +1,14 @@
 import 'package:attendance/core/const/enums.dart';
+import 'package:attendance/core/models/attendance_events/attendance_response_model.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:get/get.dart';
+import 'package:intl/intl.dart';
 import 'package:timelines_plus/timelines_plus.dart';
 
 class TimeLineNodeWidget extends StatelessWidget {
   const TimeLineNodeWidget({
+    required this.attendanceEvent,
     super.key,
     required this.type,
     this.firstNode = false,
@@ -13,6 +16,7 @@ class TimeLineNodeWidget extends StatelessWidget {
   });
   final AttendanceType type;
   final bool firstNode, lastNode;
+  final AttendanceEvent attendanceEvent;
 
   @override
   Widget build(BuildContext context) {
@@ -63,7 +67,15 @@ class TimeLineNodeWidget extends StatelessWidget {
             ),
           ),
         ),
-        const Expanded(child: Center(child: Text("11:00:00 AM - 23-12-2022"))),
+        Expanded(
+          child: Center(
+            child: Text(
+              DateFormat(
+                "h:mm a - dd/MM/yyyy",
+              ).format(attendanceEvent.date ?? DateTime.now()),
+            ),
+          ),
+        ),
       ],
     );
   }

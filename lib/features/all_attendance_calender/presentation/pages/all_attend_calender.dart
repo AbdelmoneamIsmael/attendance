@@ -1,59 +1,59 @@
-import 'package:attendance/core/const/enums.dart';
-import 'package:attendance/core/widgets/attendace_timeline_node.dart';
+import 'package:attendance/core/widgets/no_data_widget.dart';
 import 'package:attendance/features/all_attendance_calender/presentation/controller/all_attendance_calender_controller.dart';
+import 'package:attendance/features/home/presentation/view/attendance_list_widget.dart';
+import 'package:attendance/gen/assets.gen.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:flutter_sticky_header/flutter_sticky_header.dart';
-import 'package:timelines_plus/timelines_plus.dart';
+import 'package:intl/intl.dart';
 
 class AllAttendCalender extends GetView<AttendCalenderController> {
   const AllAttendCalender({super.key});
 
   @override
   Widget build(BuildContext context) {
-    return Scaffold(
-      appBar: AppBar(title: const Text('AllAttendCalender')),
+    return GetBuilder<AttendCalenderController>(
+      builder: (controller) => Scaffold(
+        appBar: AppBar(title: Text('all_attendance'.tr)),
 
-      body: CustomScrollView(
-        slivers: [
-          ...List.generate(
-            10,
-            (index) => SliverStickyHeader.builder(
-              builder: (context, state) => const StickyHeaderWidget(),
-              sliver: SliverList(
-                delegate: SliverChildBuilderDelegate(
-                  (context, i) => FixedTimeline(
-                    theme: TimelineThemeData(
-                      nodePosition: 0,
-                      color: Colors.grey,
-                      indicatorTheme: const IndicatorThemeData(
-                        position: 0,
-                        size: 20,
+        body: controller.isLoading
+            ? const Center(child: CircularProgressIndicator.adaptive())
+            : controller.dateEvents.isEmpty
+            ? Center(
+                child: NoDataWidget(
+                  iconPath: Assets.icons.about,
+                  title: "",
+                  description: 'no_attendance_record'.tr,
+                ),
+              )
+            : CustomScrollView(
+                controller: controller.scrollController,
+                slivers: [
+                  ...List.generate(
+                    controller.dateEvents.length,
+                    (index) => SliverStickyHeader.builder(
+                      builder: (context, state) => StickyHeaderWidget(
+                        title: controller.dateEvents[index].date!,
+                      ),
+
+                      sliver: SliverToBoxAdapter(
+                        child: AttendanceListWidget(
+                          attendances:
+                              controller.dateEvents[index].attendances!,
+                        ),
                       ),
                     ),
-                    children: [
-                      TimeLineNodeWidget(
-                        type: i % 2 == 0
-                            ? AttendanceType.attendIn
-                            : AttendanceType.attendOut,
-                        firstNode: i == 0,
-                        lastNode: i == 4,
-                      ),
-                    ],
                   ),
-                  childCount: 4,
-                ),
+                ],
               ),
-            ),
-          ),
-        ],
       ),
     );
   }
 }
 
 class StickyHeaderWidget extends StatelessWidget {
-  const StickyHeaderWidget({super.key});
+  const StickyHeaderWidget({super.key, required this.title});
+  final DateTime title;
 
   @override
   Widget build(BuildContext context) {
@@ -69,7 +69,7 @@ class StickyHeaderWidget extends StatelessWidget {
         padding: const EdgeInsets.symmetric(horizontal: 8, vertical: 10),
         alignment: Alignment.centerLeft,
         child: Text(
-          '${'date'.tr} ${DateTime.now().day}/${DateTime.now().month}/${DateTime.now().year}',
+          DateFormat("dd/MM/yyyy").format(title),
           style: const TextStyle(color: Colors.white),
         ),
       ),

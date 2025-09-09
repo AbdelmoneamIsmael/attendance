@@ -17,7 +17,7 @@ class LoginServicesImple extends LoginServices {
   }) async {
     try {
       var results = await remoteLoginDataSource.getLoginEmployeeInfo(userID);
-      return Right(results.empoyeeInfo!);
+      return Right(results.empoyeeInfo);
     } catch (e) {
       if (e is DioException) {
         return Left(ServerFailure.fromDioError(e));

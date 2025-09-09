@@ -1,12 +1,8 @@
-import 'package:attendance/core/widgets/attatchements/cashed_images.dart';
 import 'package:attendance/features/notification/domain/entities/notification_entity.dart';
 import 'package:attendance/features/notification/presentation/controller/notification_controller.dart';
 import 'package:attendance/features/notification/presentation/widgets/notification_widget.dart';
-import 'package:attendance/gen/assets.gen.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter_svg/svg.dart';
 import 'package:get/get.dart';
-import 'package:intl/intl.dart';
 
 class NotificationPage extends GetView<NotificationController> {
   const NotificationPage({super.key});

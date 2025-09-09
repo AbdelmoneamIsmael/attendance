@@ -44,5 +44,8 @@
     "settings": "Settings",
     "help": "Help",
     "about": "About",
-    "error_message": "Something went wrong while loading data"
+    "error_message": "Something went wrong while loading data",
+    "no_attendance" : "There is no attendance record for this employee yet",
+    "all_attendance": "All Attendance Records",
+    "no_attendance_record": "There is no attendance record"
 }

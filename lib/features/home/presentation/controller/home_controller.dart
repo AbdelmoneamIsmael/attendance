@@ -2,6 +2,8 @@ import 'dart:async';
 
 import 'package:attendance/core/controllers/auth_controller/auth_controller.dart';
 import 'package:attendance/core/models/account_model/employee_info.dart';
+import 'package:attendance/core/models/attendance_events/attendance_params.dart';
+import 'package:attendance/core/models/attendance_events/attendance_response_model.dart';
 import 'package:attendance/core/models/search_employee/params/search_employee_params.dart';
 import 'package:attendance/core/models/search_employee/response_model/employee_search_response_model.dart';
 import 'package:attendance/core/repo/employees_repo/repo/employee_repo.dart';
@@ -30,6 +32,7 @@ class HomeController extends GetxController {
   @override
   void onInit() {
     employeeInformation = Get.find<AuthController>().employeeInformation;
+    getAttendanceEvents();
     initscrollPagenation();
     typingTimer?.cancel();
     super.onInit();
@@ -107,5 +110,43 @@ class HomeController extends GetxController {
       employees.clear();
       getEmployeesWhoIManaged();
     });
+  }
+
+  //////attendace//////
+  ///
+  ///
+  ///
+  List<DateEvent> attendancesDayEvent = [];
+  bool gettingAttendance = false;
+  Future<void> getAttendanceEvents() async {
+    gettingAttendance = true;
+    update();
+    var result = await employeeRepo.getEmployeeAttendances(
+      attendanceParams: AttendanceParams(
+        isPagingEnabled: true,
+        pageIndex: 1,
+        pageSize: 1,
+        sortColumn: null,
+        sortDirection: null,
+        search: "",
+        readDto: AttendReadDto(
+          id: null,
+          employeeId: employeeInformation.employeeView?.id,
+          date: null,
+        ),
+      ),
+    );
+    result.fold(
+      (l) {
+        gettingAttendance = false;
+        UIHelper.showSnakBar(message: l.message);
+        update();
+      },
+      (r) {
+        attendancesDayEvent = r.data ?? [];
+        gettingAttendance = false;
+        update();
+      },
+    );
   }
 }

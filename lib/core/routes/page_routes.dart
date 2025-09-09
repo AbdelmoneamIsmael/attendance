@@ -37,7 +37,7 @@ class AppPages {
       transition: Transition.cupertino,
     ),
     GetPage(
-      name: PageKeys.allAttendCalender,
+      name: "${PageKeys.allAttendCalender}/:employeeID",
       page: () => const AllAttendCalender(),
       binding: AttendanceBinding(),
       transition: Transition.cupertino,

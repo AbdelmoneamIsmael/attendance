@@ -24,7 +24,7 @@ class UserInfoModelResponse {
     UserInfoModel? data,
     String? message,
     num? statusCode,
-    dynamic? error,
+    dynamic error,
   }) {
     return UserInfoModelResponse(
       success: success ?? this.success,

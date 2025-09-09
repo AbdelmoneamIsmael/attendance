@@ -4,7 +4,7 @@ import 'package:attendance/core/repo/employees_repo/data/employee_repo_remote_da
 import 'package:attendance/core/repo/employees_repo/repo/employee_repo.dart';
 import 'package:attendance/core/repo/employees_repo/repo/get_employee_repo_imple.dart';
 import 'package:attendance/core/util/cache/cache_helper.dart';
-import 'package:attendance/core/util/functions/initialize_Localization.dart';
+import 'package:attendance/core/util/functions/initialize_localization.dart';
 import 'package:attendance/core/util/networking/api_server.dart';
 import 'package:attendance/core/util/notification/notification_handeler.dart';
 import 'package:attendance/features/login_screen/data/datasources/remote_login_data_source.dart';
