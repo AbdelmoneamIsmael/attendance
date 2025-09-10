@@ -48,5 +48,10 @@
     "error_message":"حدث خطاء اثناء تحميل البينات",
     "no_attendance" :"لا يوجد سجل حضور او انصراف لهذا الموظف بعد",
     "all_attendance":"جميع سجلات الحضور والانصراف",
-    "no_attendance_record":"لا يوجد سجلات حضور وانصراف"
+    "no_attendance_record":"لا يوجد سجلات حضور وانصراف",
+    "absent" :"غياب",
+    "vocation":"اجازة",
+    "late":"تاخير",
+    "leave":"انصراف",
+    "work_from_home":"عمل من منزل"
 }

@@ -34,9 +34,8 @@ class AttendanceListWidget extends StatelessWidget {
                 attendances.length,
                 (index) => TimeLineNodeWidget(
                   attendanceEvent: attendances[index],
-                  type: attendances[index].checkIn == null
-                      ? AttendanceType.attendOut
-                      : AttendanceType.attendIn,
+                  type: AttendanceType
+                      .values[attendances[index].attendanceType?.toInt() ?? 0],
                   firstNode: index == 0,
                   lastNode: index == (attendances.length) - 1,
                 ),

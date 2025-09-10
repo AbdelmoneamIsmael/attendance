@@ -9,12 +9,11 @@ class EmployeeInformation {
   final EmployeeView? employeeView;
   final ShiftView? shiftView;
 
-
   EmployeeInformation copyWith({
     EmployeeView? employeeView,
     ShiftView? shiftView,
-    bool ? isManager,
-    num ? employeesCount
+    bool? isManager,
+    num? employeesCount,
   }) {
     return EmployeeInformation(
       employeeView: employeeView ?? this.employeeView,
@@ -68,7 +67,7 @@ class EmployeeView {
   final String? address;
   final num? gender;
   final String? imageUrl;
-    final bool? isManager;
+  final bool? isManager;
   final num? employeesCount;
 
   EmployeeView copyWith({
@@ -86,8 +85,8 @@ class EmployeeView {
     String? address,
     num? gender,
     String? imageUrl,
-       bool? isManager,
-   num? employeesCount,
+    bool? isManager,
+    num? employeesCount,
   }) {
     return EmployeeView(
       imageUrl: imageUrl ?? this.imageUrl,
@@ -122,6 +121,8 @@ class EmployeeView {
 @JsonSerializable()
 class ShiftView {
   ShiftView({
+    required this.start,
+    required this.end,
     required this.id,
     required this.name,
     required this.startTime,
@@ -135,6 +136,8 @@ class ShiftView {
   final String? name;
   final String? startTime;
   final String? endTime;
+  final DateTime start;
+  final DateTime end;
   final num? requiredHours;
   final num? graceInMinutes;
   final num? graceOutMinutes;
@@ -147,8 +150,12 @@ class ShiftView {
     num? requiredHours,
     num? graceInMinutes,
     num? graceOutMinutes,
+    DateTime? start,
+    DateTime? end,
   }) {
     return ShiftView(
+      start: start ?? this.start,
+      end: end ?? this.end,
       id: id ?? this.id,
       name: name ?? this.name,
       startTime: startTime ?? this.startTime,
@@ -166,7 +173,7 @@ class ShiftView {
 
   @override
   String toString() {
-    return "$id, $name, $startTime, $endTime, $requiredHours, $graceInMinutes, $graceOutMinutes, ";
+    return "$id, $name, $startTime, $endTime, $requiredHours, $graceInMinutes, $graceOutMinutes,  ";
   }
 }
 

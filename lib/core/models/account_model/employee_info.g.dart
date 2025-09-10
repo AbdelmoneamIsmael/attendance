@@ -63,6 +63,8 @@ Map<String, dynamic> _$EmployeeViewToJson(EmployeeView instance) =>
     };
 
 ShiftView _$ShiftViewFromJson(Map<String, dynamic> json) => ShiftView(
+      start: DateTime.parse(json['start'] as String),
+      end: DateTime.parse(json['end'] as String),
       id: (json['id'] as num?)?.toInt(),
       name: json['name'] as String?,
       startTime: json['startTime'] as String?,
@@ -77,6 +79,8 @@ Map<String, dynamic> _$ShiftViewToJson(ShiftView instance) => <String, dynamic>{
       'name': instance.name,
       'startTime': instance.startTime,
       'endTime': instance.endTime,
+      'start': instance.start.toIso8601String(),
+      'end': instance.end.toIso8601String(),
       'requiredHours': instance.requiredHours,
       'graceInMinutes': instance.graceInMinutes,
       'graceOutMinutes': instance.graceOutMinutes,

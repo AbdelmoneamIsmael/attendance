@@ -3,6 +3,7 @@ import 'package:attendance/core/models/attendance_events/attendance_response_mod
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:get/get.dart';
+import 'package:get_cli/common/utils/json_serialize/helpers.dart';
 import 'package:intl/intl.dart';
 import 'package:timelines_plus/timelines_plus.dart';
 
@@ -24,15 +25,7 @@ class TimeLineNodeWidget extends StatelessWidget {
       mainAxisAlignment: MainAxisAlignment.center,
       spacing: 20.0,
       children: [
-        Expanded(
-          child: Center(
-            child: Text(
-              type == AttendanceType.attendIn
-                  ? "attendance_in".tr
-                  : "attendance_out".tr,
-            ),
-          ),
-        ),
+        Expanded(child: Center(child: Text(getAttendTypeName(type)))),
         Expanded(
           child: SizedBox(
             height: 80.0.h,
@@ -40,30 +33,16 @@ class TimeLineNodeWidget extends StatelessWidget {
               indicator: Row(
                 mainAxisAlignment: MainAxisAlignment.center,
 
-                children: [
-                  DotIndicator(
-                    color: AttendanceType.attendIn == type
-                        ? Colors.green
-                        : Colors.red,
-                  ),
-                ],
+                children: [DotIndicator(color: getColor(type))],
               ),
               startConnector: firstNode && AttendanceType.attendOut == type
                   ? null
                   : firstNode && AttendanceType.attendIn == type
-                  ? const DashedLineConnector(color: Colors.green)
-                  : SolidLineConnector(
-                      color: AttendanceType.attendIn == type
-                          ? Colors.green
-                          : Colors.red,
-                    ),
+                  ? DashedLineConnector(color: getColor(type))
+                  : SolidLineConnector(color: getColor(type)),
               endConnector: lastNode
                   ? null
-                  : SolidLineConnector(
-                      color: AttendanceType.attendIn != type
-                          ? Colors.green
-                          : Colors.red,
-                    ),
+                  : SolidLineConnector(color: getColor(type)),
             ),
           ),
         ),
@@ -78,5 +57,31 @@ class TimeLineNodeWidget extends StatelessWidget {
         ),
       ],
     );
+  }
+
+  Color getColor(AttendanceType type) {
+    switch (type) {
+      case AttendanceType.attendIn:
+        return Colors.green;
+      case AttendanceType.attendOut:
+        return Colors.blue;
+      case AttendanceType.absent:
+        return Colors.red;
+      case AttendanceType.vocation:
+        return Colors.purple;
+    }
+  }
+
+  String getAttendTypeName(AttendanceType type) {
+    switch (type) {
+      case AttendanceType.attendIn:
+        return "attendance_in".tr;
+      case AttendanceType.attendOut:
+        return "attendance_out".tr;
+      case AttendanceType.absent:
+        return "absent".tr;
+      case AttendanceType.vocation:
+        return "vocation".tr;
+    }
   }
 }
