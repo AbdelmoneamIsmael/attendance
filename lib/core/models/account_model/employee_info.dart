@@ -1,3 +1,4 @@
+import 'package:attendance/core/util/extentions/time_zone.dart';
 import 'package:json_annotation/json_annotation.dart';
 
 part 'employee_info.g.dart';
@@ -136,7 +137,9 @@ class ShiftView {
   final String? name;
   final String? startTime;
   final String? endTime;
+  // @UtcDateTimeConverter()
   final DateTime start;
+  // @UtcDateTimeConverter()
   final DateTime end;
   final num? requiredHours;
   final num? graceInMinutes;
@@ -179,28 +182,38 @@ class ShiftView {
 
 /*
 {
-	"employeeView": {
-		"id": 4,
-		"name": "Aidan Lester",
-		"email": "gifufa@mailinator.com",
-		"phoneNumber": "+1 (249) 574-7227",
-		"hireDate": "1/1/2025 12:00:00 AM",
-		"baseSalary": 700000,
-		"attendType": "ShiftBased",
-		"jobNumber": "336",
-		"jobGrade": null,
-		"shift": "كل يوم",
-		"employeeType": null,
-		"address": "Sed adipisicing volu",
-		"gender": 2
-	},
-	"shiftView": {
-		"id": 4,
-		"name": "كل يوم",
-		"startTime": "08:00:00",
-		"endTime": "17:00:00",
-		"requiredHours": 9,
-		"graceInMinutes": 15,
-		"graceOutMinutes": 15
-	}
-}*/
+    "employeeView": {
+      "id": 4,
+      "name": "Aidan Lester",
+      "email": "gifufa@mailinator.com",
+      "phoneNumber": "+1 (249) 574-7227",
+      "hireDate": "1/1/2025 12:00:00 AM",
+      "baseSalary": 700000,
+      "attendType": "ShiftBased",
+      "jobNumber": "336",
+      "jobGrade": "مهندس",
+      "shift": "كل يوم",
+      "employeeType": "اجر يومي",
+      "address": "Sed adipisicing volu",
+      "gender": 2,
+      "imageUrl": null,
+      "isManager": true,
+      "employeesCount": 3,
+      "shiftName": "كل يوم",
+      "startTime": "08:00:00",
+      "endTime": "17:00:00",
+      "iAttend": true
+    },
+    "shiftView": {
+      "id": 4,
+      "name": "كل يوم",
+      "startTime": "08:00:00",
+      "endTime": "17:00:00",
+      "requiredHours": 9,
+      "graceInMinutes": 15,
+      "graceOutMinutes": 15,
+      "start": "2025-09-10T08:00:00+02:00",
+      "end": "2025-09-10T17:00:00+02:00"
+    }
+  }
+  */
