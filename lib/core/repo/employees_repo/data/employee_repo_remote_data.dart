@@ -16,6 +16,9 @@ abstract class EmployeeRepoRemoteData {
   Future<AttendanceResponseModel> getEmployeeAttendances(
     Map<String, dynamic> attendanceParams,
   );
+  Future<String> addAttend(
+    Map<String, dynamic> addAttendParams,
+  );
 }
 
 @RestApi()
@@ -38,5 +41,11 @@ abstract class EmployeeRepoRemoteDataImple implements EmployeeRepoRemoteData {
   @POST(AppEndPoints.getEmployeeAttendances)
   Future<AttendanceResponseModel> getEmployeeAttendances(
     @Body() Map<String, dynamic> attendanceParams,
+  );
+
+  @override
+  @POST(AppEndPoints.addAttend)
+  Future<String> addAttend(
+    @Body() Map<String, dynamic> addAttendParams,
   );
 }

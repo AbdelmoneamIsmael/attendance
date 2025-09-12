@@ -1,3 +1,4 @@
+import 'package:attendance/core/const/enums.dart';
 import 'package:attendance/core/errors/error_class.dart';
 import 'package:attendance/core/models/account_model/employee_info.dart';
 import 'package:attendance/core/models/attendance_events/attendance_params.dart';
@@ -34,12 +35,14 @@ class GetEmployeeRepoImple extends EmployeeRepo {
   @override
   Future<Either<Failure, EmployeeSearchResult>> getSubEmplyees({
     required SearchParams searchParams,
-  }) async{
-    try{
-      var results = await employeeRepoRemoteData.getSubEmployeesData(searchParams.toJson());
+  }) async {
+    try {
+      var results = await employeeRepoRemoteData.getSubEmployeesData(
+        searchParams.toJson(),
+      );
       return Right(results);
-    }catch(e){
-      if(e is DioException){
+    } catch (e) {
+      if (e is DioException) {
         return Left(ServerFailure.fromDioError(e));
       }
       return Left(ServerFailure(e.toString()));
@@ -47,12 +50,37 @@ class GetEmployeeRepoImple extends EmployeeRepo {
   }
 
   @override
-  Future<Either<Failure, AttendanceResponseModel>> getEmployeeAttendances({required AttendanceParams attendanceParams}) async {
-       try{
-      var results = await employeeRepoRemoteData.getEmployeeAttendances(attendanceParams.toJson());
+  Future<Either<Failure, AttendanceResponseModel>> getEmployeeAttendances({
+    required AttendanceParams attendanceParams,
+  }) async {
+    try {
+      var results = await employeeRepoRemoteData.getEmployeeAttendances(
+        attendanceParams.toJson(),
+      );
       return Right(results);
-    }catch(e){
-      if(e is DioException){
+    } catch (e) {
+      if (e is DioException) {
+        return Left(ServerFailure.fromDioError(e));
+      }
+      return Left(ServerFailure(e.toString()));
+    }
+  }
+
+  @override
+  Future<Either<Failure, String>> signAttendIn({
+    required AttendanceType attendanceType,
+    required int shiftId,
+  }) async {
+    try {
+      print(attendanceType.index);
+      var results = await employeeRepoRemoteData.addAttend({
+        "attendanceType": attendanceType.index,
+        "shiftId": shiftId,
+        "date": DateTime.now().toIso8601String(),
+      });
+      return Right(results);
+    } catch (e) {
+      if (e is DioException) {
         return Left(ServerFailure.fromDioError(e));
       }
       return Left(ServerFailure(e.toString()));

@@ -1,3 +1,4 @@
+import 'package:attendance/core/const/enums.dart';
 import 'package:attendance/core/errors/error_class.dart';
 import 'package:attendance/core/models/account_model/employee_info.dart';
 import 'package:attendance/core/models/attendance_events/attendance_params.dart';
@@ -16,5 +17,10 @@ abstract class EmployeeRepo {
 
   Future<Either<Failure, AttendanceResponseModel>> getEmployeeAttendances({
     required AttendanceParams attendanceParams,
+  });
+
+  Future<Either<Failure, String>> signAttendIn({
+    required AttendanceType attendanceType,
+    required int shiftId,
   });
 }

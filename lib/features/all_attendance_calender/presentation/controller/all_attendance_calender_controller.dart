@@ -67,13 +67,59 @@ class AttendCalenderController extends GetxController {
       (r) {
         print(r.toString());
         print("lenth attendance${r.data?.length}");
-        isLoading = false;
         attendanceResults = r;
         dateEvents.addAll(r.data ?? []);
         isThereMoreItems = r.hasNextPage ?? false;
         pageIndex++;
+        isLoading = false;
+        fillMissingDates();
         update();
       },
     );
+  }
+
+  Future<void> refreshAttendance() async {
+    pageIndex = 1;
+    isThereMoreItems = true;
+    dateEvents.clear();
+    await getUserAttendance();
+  }
+
+  void fillMissingDates() {
+    if (dateEvents.isEmpty) return;
+
+    // // ترتيب الليستة بالتاريخ (لو مش مترتبة)
+    // dateEvents.sort((a, b) => a.date!.compareTo(b.date!));
+
+    List<DateEvent> fullList = [];
+    DateTime start = dateEvents.last.date!; // أقدم تاريخ
+    DateTime end = DateTime.now(); // أحدث تاريخ
+
+    DateTime current = start;
+    print(current.isAfter(end));
+    while (!current.isAfter(end)) {
+      print(current.isAfter(end));
+      // لو التاريخ موجود في الداتا
+      DateEvent? existing = dateEvents.firstWhereOrNull(
+        (d) => DateUtils.isSameDay(d.date, current),
+      );
+
+      if (existing != null) {
+        fullList.add(existing);
+      } else {
+        // نضيف تاريخ ناقص بحضور فاضي
+        fullList.add(DateEvent(id: null, date: current, attendances: []));
+      }
+
+      current = current.add(const Duration(days: 1));
+    }
+    dateEvents = fullList;
+    dateEvents.sort((a, b) => b.date!.compareTo(a.date!));
+  }
+
+  @override
+  void onClose() {
+    scrollController.dispose();
+    super.onClose();
   }
 }

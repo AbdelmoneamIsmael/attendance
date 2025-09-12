@@ -1,5 +1,7 @@
+import 'package:attendance/core/const/storage_keys.dart';
 import 'package:attendance/core/controllers/app_controller/language_controller.dart';
 import 'package:attendance/core/const/app_const.dart';
+import 'package:attendance/core/util/cache/cache_helper.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 
@@ -25,7 +27,12 @@ class TranslateBootomSheet extends StatelessWidget {
               ListTile(
                 leading: Text(AppConstants.languages[0].imageUrl),
                 title: Text("english".tr),
-                onTap: () {
+                onTap: () async {
+                  await CacheHelper.saveData(
+                    value: "en-US",
+                    key: StorageKeys.languageCode,
+                  );
+
                   controller.setLanguage(
                     Locale(
                       AppConstants.languages[0].languageCode,
@@ -39,7 +46,11 @@ class TranslateBootomSheet extends StatelessWidget {
               ListTile(
                 leading: Text(AppConstants.languages[1].imageUrl),
                 title: Text("arabic".tr),
-                onTap: () {
+                onTap: () async {
+                  await CacheHelper.saveData(
+                    value: "Ar-EG",
+                    key: StorageKeys.languageCode,
+                  );
                   controller.setLanguage(
                     Locale(
                       AppConstants.languages[1].languageCode,

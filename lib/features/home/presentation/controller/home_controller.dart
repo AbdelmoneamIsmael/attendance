@@ -1,5 +1,6 @@
 import 'dart:async';
 
+import 'package:attendance/core/const/enums.dart';
 import 'package:attendance/core/controllers/auth_controller/auth_controller.dart';
 import 'package:attendance/core/models/account_model/employee_info.dart';
 import 'package:attendance/core/models/attendance_events/attendance_params.dart';
@@ -118,7 +119,58 @@ class HomeController extends GetxController {
   ///
   List<DateEvent> attendancesDayEvent = [];
   bool gettingAttendance = false;
+  bool isDoingAttendOperations = false;
+  Future<void> onAttendTap() async {
+    isDoingAttendOperations = true;
+    update();
+    var result = await employeeRepo.signAttendIn(
+      attendanceType: AttendanceType.attendIn,
+      shiftId: employeeInformation.shiftView?.id ?? 0,
+    );
+    result.fold(
+      (l) async {
+        UIHelper.showSnakBar(message: l.message);
+        isDoingAttendOperations = false;
+        attendancesDayEvent = [];
+        await getAttendanceEvents();
+        update();
+      },
+      (r) async {
+        attendancesDayEvent = [];
+        await getAttendanceEvents();
+
+        isDoingAttendOperations = false;
+        update();
+      },
+    );
+  }
+
+  Future<void> onLeaveTap() async {
+    isDoingAttendOperations = true;
+    update();
+    var result = await employeeRepo.signAttendIn(
+      attendanceType: AttendanceType.attendOut,
+      shiftId: employeeInformation.shiftView?.id ?? 0,
+    );
+    result.fold(
+      (l) async {
+        UIHelper.showSnakBar(message: l.message);
+        isDoingAttendOperations = false;
+        update();
+        attendancesDayEvent = [];
+        await getAttendanceEvents();
+      },
+      (r) async {
+        attendancesDayEvent = [];
+        await getAttendanceEvents();
+        isDoingAttendOperations = false;
+        update();
+      },
+    );
+  }
+
   Future<void> getAttendanceEvents() async {
+    print(DateTime.now());
     gettingAttendance = true;
     update();
     var result = await employeeRepo.getEmployeeAttendances(
@@ -132,7 +184,7 @@ class HomeController extends GetxController {
         readDto: AttendReadDto(
           id: null,
           employeeId: employeeInformation.employeeView?.id,
-          date: null,
+          date: DateTime.now(),
         ),
       ),
     );

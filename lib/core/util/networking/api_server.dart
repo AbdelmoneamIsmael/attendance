@@ -45,8 +45,13 @@ class ApiServer extends ApiRepo {
           String? token = await CacheHelper.getSecuerString(
             key: StorageKeys.accessToken,
           );
+          String? language = await CacheHelper.getSecuerString(
+            key: StorageKeys.languageCode,
+          );
           options.headers["Authorization"] = "Bearer $token";
-          options.headers["Accept-Language"] = "ar-EG";
+          options.headers["Accept-Language"] = language.isEmpty
+              ? "ar-EG"
+              : language;
 
           return handler.next(options);
         },

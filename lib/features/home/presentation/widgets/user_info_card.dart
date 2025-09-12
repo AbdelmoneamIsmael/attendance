@@ -14,9 +14,12 @@ class UserAttendInfoCard extends StatefulWidget {
     super.key,
     this.isSamePerson = false,
     required this.employeeInformation,
+    this.onAttendTap,
+    this.onLeaveTap,
   });
   final bool isSamePerson;
   final EmployeeInformation employeeInformation;
+  final VoidCallback? onAttendTap, onLeaveTap;
 
   @override
   State<UserAttendInfoCard> createState() => _UserAttendInfoCardState();
@@ -161,7 +164,7 @@ class _UserAttendInfoCardState extends State<UserAttendInfoCard> {
             const SizedBox(height: 20),
             if (widget.isSamePerson)
               ElevatedButton(
-                onPressed: () {},
+                onPressed: widget.onAttendTap,
                 child: Row(
                   mainAxisAlignment: MainAxisAlignment.center,
                   children: [
@@ -176,6 +179,34 @@ class _UserAttendInfoCardState extends State<UserAttendInfoCard> {
                     ),
                     const SizedBox(width: 10),
                     Text('start_attendance'.tr),
+                  ],
+                ),
+              ),
+            if (widget.isSamePerson) const SizedBox(height: 20),
+            if (widget.isSamePerson)
+              ElevatedButton(
+                style: ElevatedButton.styleFrom(
+                  backgroundColor: Colors.red,
+                  shape: RoundedRectangleBorder(
+                    borderRadius: BorderRadius.circular(10),
+                    side: const BorderSide(color: Colors.red),
+                  ),
+                ),
+                onPressed: widget.onLeaveTap,
+                child: Row(
+                  mainAxisAlignment: MainAxisAlignment.center,
+                  children: [
+                    SvgPicture.asset(
+                      Assets.icons.logout,
+                      width: 20,
+                      height: 20,
+                      colorFilter: const ColorFilter.mode(
+                        Colors.white,
+                        BlendMode.srcIn,
+                      ),
+                    ),
+                    const SizedBox(width: 10),
+                    Text('end_attendance'.tr),
                   ],
                 ),
               ),

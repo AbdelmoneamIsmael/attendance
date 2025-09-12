@@ -1,5 +1,7 @@
+import 'package:attendance/core/controllers/auth_controller/auth_controller.dart';
 import 'package:attendance/core/routes/pages_keys.dart';
 import 'package:attendance/core/widgets/app_text_field.dart';
+import 'package:attendance/core/widgets/loading_over_lay.dart';
 import 'package:attendance/core/widgets/title_tale.dart';
 import 'package:attendance/features/home/presentation/controller/home_controller.dart';
 import 'package:attendance/features/home/presentation/view/attendance_List_widget.dart';
@@ -21,7 +23,7 @@ class HomeScreen extends GetView<HomeController> {
         title: Text('home_screen_title'.tr),
         actions: [
           Padding(
-            padding: const EdgeInsets.symmetric(horizontal: 16.0),
+            padding: const EdgeInsets.symmetric(horizontal: 0),
             child: Badge.count(
               count: 3,
               child: CircleAvatar(
@@ -38,6 +40,22 @@ class HomeScreen extends GetView<HomeController> {
               ),
             ),
           ),
+          Padding(
+            padding: const EdgeInsets.symmetric(horizontal: 16.0),
+            child: CircleAvatar(
+              backgroundColor: Colors.white,
+              child: IconButton(
+                icon: SvgPicture.asset(
+                  Assets.icons.logout,
+                  color: Theme.of(context).colorScheme.primary,
+                ),
+                onPressed: () {
+                  Get.find<AuthController>().logout();
+                  Get.offNamed(PageKeys.loginScreen);
+                },
+              ),
+            ),
+          ),
         ],
       ),
 
@@ -45,103 +63,121 @@ class HomeScreen extends GetView<HomeController> {
         init: HomeController(),
         initState: (_) {},
         builder: (_) {
-          return CustomScrollView(
-            controller: controller.scrollController,
-            slivers: [
-              SliverToBoxAdapter(
-                child: UserAttendInfoCard(
-                  isSamePerson: true,
-                  employeeInformation: controller.employeeInformation,
-                ),
-              ),
-              const SliverToBoxAdapter(child: SizedBox(height: 20)),
-              SliverToBoxAdapter(
-                child: Padding(
-                  padding: const EdgeInsets.symmetric(
-                    horizontal: 22,
-                    vertical: 10,
-                  ).w,
-                  child: TitleTale(
-                    title: "attendance_list".tr,
-                    trailing: "show_all".tr,
-                    onTap: () {
-                      Get.toNamed(
-                        "${PageKeys.allAttendCalender}/${controller.employeeInformation.employeeView!.id}",
-                      );
-                    },
+          return Stack(
+            children: [
+              CustomScrollView(
+                controller: controller.scrollController,
+                slivers: [
+                  SliverToBoxAdapter(
+                    child: UserAttendInfoCard(
+                      onAttendTap: controller.onAttendTap,
+                      onLeaveTap: controller.onLeaveTap,
+                      isSamePerson: true,
+                      employeeInformation: controller.employeeInformation,
+                    ),
                   ),
-                ),
-              ),
-              const SliverToBoxAdapter(child: SizedBox(height: 20)),
-              SliverFillRemaining(
-                hasScrollBody: false,
-
-                child: controller.gettingAttendance
-                    ? const Center(child: CircularProgressIndicator.adaptive())
-                    : AttendanceListWidget(
-                        attendances:
-                            controller.attendancesDayEvent.first.attendances ??
-                            [],
+                  const SliverToBoxAdapter(child: SizedBox(height: 20)),
+                  SliverToBoxAdapter(
+                    child: Padding(
+                      padding: const EdgeInsets.symmetric(
+                        horizontal: 22,
+                        vertical: 10,
+                      ).w,
+                      child: TitleTale(
+                        title: "attendance_list".tr,
+                        trailing: "show_all".tr,
+                        onTap: () {
+                          Get.toNamed(
+                            "${PageKeys.allAttendCalender}/${controller.employeeInformation.employeeView!.id}",
+                          );
+                        },
                       ),
-              ),
-              if (controller.employeeInformation.employeeView!.isManager ==
-                  true)
-                SliverToBoxAdapter(
-                  child: Padding(
-                    padding: const EdgeInsets.symmetric(
-                      horizontal: 22,
-                      vertical: 20,
-                    ).w,
-                    child: Column(
-                      crossAxisAlignment: CrossAxisAlignment.start,
-                      children: [
-                        Text(
-                          "depart_employee".tr,
-                          style: const TextStyle(
-                            fontSize: 20,
-                            fontWeight: FontWeight.bold,
+                    ),
+                  ),
+                  const SliverToBoxAdapter(child: SizedBox(height: 20)),
+                  SliverFillRemaining(
+                    hasScrollBody: false,
+
+                    child: controller.gettingAttendance
+                        ? const Center(
+                            child: CircularProgressIndicator.adaptive(),
+                          )
+                        : AttendanceListWidget(
+                            attendances: controller.attendancesDayEvent.isEmpty
+                                ? []
+                                : controller
+                                          .attendancesDayEvent
+                                          .first
+                                          .attendances ??
+                                      [],
+                          ),
+                  ),
+                  if (controller.employeeInformation.employeeView!.isManager ==
+                      true)
+                    SliverToBoxAdapter(
+                      child: Padding(
+                        padding: const EdgeInsets.symmetric(
+                          horizontal: 22,
+                          vertical: 20,
+                        ).w,
+                        child: Column(
+                          crossAxisAlignment: CrossAxisAlignment.start,
+                          children: [
+                            Text(
+                              "depart_employee".tr,
+                              style: const TextStyle(
+                                fontSize: 20,
+                                fontWeight: FontWeight.bold,
+                              ),
+                            ),
+                          ],
+                        ),
+                      ),
+                    ),
+                  if (controller.employeeInformation.employeeView!.isManager ==
+                      true)
+                    SliverToBoxAdapter(
+                      child: Padding(
+                        padding: const EdgeInsets.symmetric(
+                          horizontal: 22,
+                          vertical: 10,
+                        ).w,
+                        child: AppTextField(
+                          controller: controller.searchController,
+                          hint: "search".tr,
+                          onChanged: (value) => controller.onSearch(),
+                          prefixIcon: SvgPicture.asset(
+                            Assets.icons.search,
+                            width: 20,
+                            height: 20,
+                            fit: BoxFit.scaleDown,
                           ),
                         ),
-                      ],
-                    ),
-                  ),
-                ),
-              if (controller.employeeInformation.employeeView!.isManager ==
-                  true)
-                SliverToBoxAdapter(
-                  child: Padding(
-                    padding: const EdgeInsets.symmetric(
-                      horizontal: 22,
-                      vertical: 10,
-                    ).w,
-                    child: AppTextField(
-                      controller: controller.searchController,
-                      hint: "search".tr,
-                      onChanged: (value) => controller.onSearch(),
-                      prefixIcon: SvgPicture.asset(
-                        Assets.icons.search,
-                        width: 20,
-                        height: 20,
-                        fit: BoxFit.scaleDown,
                       ),
                     ),
+                  if (controller.employeeInformation.employeeView!.isManager ==
+                      true)
+                    PersonManageOnList(employees: controller.employees),
+                  if (controller.isLoading)
+                    const SliverFillRemaining(
+                      hasScrollBody: false,
+                      child: Center(
+                        child: CircularProgressIndicator.adaptive(),
+                      ),
+                    ),
+                  if (controller.employeeInformation.employeeView!.isManager ==
+                      true)
+                    const SliverToBoxAdapter(child: SizedBox(height: 100)),
+                  SliverToBoxAdapter(
+                    child: SizedBox(
+                      height: MediaQuery.of(context).viewInsets.bottom,
+                    ),
                   ),
-                ),
-              if (controller.employeeInformation.employeeView!.isManager ==
-                  true)
-                PersonManageOnList(employees: controller.employees),
-              if (controller.isLoading)
-                const SliverFillRemaining(
-                  hasScrollBody: false,
-                  child: Center(child: CircularProgressIndicator.adaptive()),
-                ),
-              if (controller.employeeInformation.employeeView!.isManager ==
-                  true)
-                const SliverToBoxAdapter(child: SizedBox(height: 100)),
-              SliverToBoxAdapter(
-                child: SizedBox(
-                  height: MediaQuery.of(context).viewInsets.bottom,
-                ),
+                ],
+              ),
+              Visibility(
+                visible: controller.isDoingAttendOperations,
+                child: const LoadingOverlay(),
               ),
             ],
           );

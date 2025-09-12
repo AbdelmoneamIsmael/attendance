@@ -47,10 +47,12 @@ initialize() async {
     () => LoginServicesImple(
       remoteLoginDataSource: RemoteLoginDataSourceImple(ApiServer().dio),
     ),
+    fenix: true,
   );
   Get.lazyPut<EmployeeRepo>(
     () => GetEmployeeRepoImple(
       employeeRepoRemoteData: EmployeeRepoRemoteDataImple(ApiServer().dio),
     ),
+    fenix: true,
   );
 }
