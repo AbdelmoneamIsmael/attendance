@@ -1,21 +1,24 @@
 import 'dart:async';
 import 'package:attendance/core/models/account_model/employee_info.dart';
+import 'package:attendance/core/themes/colors/colors.dart';
+import 'package:attendance/core/themes/styles/app_text_style.dart';
 import 'package:attendance/core/widgets/avatar_view.dart';
 import 'package:attendance/core/widgets/attatchements/cashed_images.dart';
 import 'package:attendance/gen/assets.gen.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:flutter_svg/svg.dart';
 import 'package:get/get.dart';
 import 'package:intl/intl.dart';
 
-/// كارت معلومات الموظف + متابعة الحضور والانصراف
+/// Modern User Info Card with Attendance Controls
 class UserAttendInfoCard extends StatefulWidget {
   const UserAttendInfoCard({
     super.key,
-    this.isSamePerson = false, // هل المستخدم الحالي هو نفس الموظف
+    this.isSamePerson = false,
     required this.employeeInformation,
-    this.onAttendTap, // حدث الضغط على زر الحضور
-    this.onLeaveTap, // حدث الضغط على زر الانصراف
+    this.onAttendTap,
+    this.onLeaveTap,
   });
 
   final bool isSamePerson;
@@ -26,41 +29,48 @@ class UserAttendInfoCard extends StatefulWidget {
   State<UserAttendInfoCard> createState() => _UserAttendInfoCardState();
 }
 
-class _UserAttendInfoCardState extends State<UserAttendInfoCard> {
-  double progress = 0; // نسبة التقدم في وقت الشيفت (من 0 لـ 1)
-  int fullValue = 0; // إجمالي مدة الشيفت بالثواني
-  int remainingValue = 0; // الوقت المتبقي بالثواني
+class _UserAttendInfoCardState extends State<UserAttendInfoCard>
+    with TickerProviderStateMixin {
+  double progress = 0;
+  int fullValue = 0;
+  int remainingValue = 0;
   Timer? timer;
+  late AnimationController _animationController;
+  late Animation<double> _fadeAnimation;
 
   @override
   void initState() {
     super.initState();
+    
+    _animationController = AnimationController(
+      duration: const Duration(milliseconds: 800),
+      vsync: this,
+    );
+    _fadeAnimation = Tween<double>(begin: 0.0, end: 1.0).animate(
+      CurvedAnimation(parent: _animationController, curve: Curves.easeOut),
+    );
+    _animationController.forward();
 
-    // حساب وقت الشيفت
     final shift = widget.employeeInformation.shiftView!;
     final start = shift.start;
     final end = shift.end;
     fullValue = end.difference(start).inSeconds;
 
-    // تايمر يحدث كل ثانية لحساب الوقت المتبقي والتقدم
     timer = Timer.periodic(const Duration(seconds: 1), (t) {
       final now = DateTime.now();
 
       if (now.isBefore(start)) {
-        // قبل بداية الشيفت
         setState(() {
           remainingValue = fullValue;
           progress = 0;
         });
       } else if (now.isAfter(end)) {
-        // بعد انتهاء الشيفت
         setState(() {
           remainingValue = 0;
           progress = 1.0;
         });
         t.cancel();
       } else {
-        // أثناء الشيفت
         final elapsed = now.difference(start).inSeconds;
         final remaining = end.difference(now).inSeconds;
         setState(() {
@@ -73,7 +83,8 @@ class _UserAttendInfoCardState extends State<UserAttendInfoCard> {
 
   @override
   void dispose() {
-    timer?.cancel(); // إيقاف التايمر عند التخلص من الودجت
+    timer?.cancel();
+    _animationController.dispose();
     super.dispose();
   }
 
@@ -81,173 +92,279 @@ class _UserAttendInfoCardState extends State<UserAttendInfoCard> {
   Widget build(BuildContext context) {
     final employeeView = widget.employeeInformation.employeeView;
 
-    return Container(
-      margin: const EdgeInsets.all(20),
-      decoration: BoxDecoration(
-        color: Colors.white,
-        borderRadius: BorderRadius.circular(10),
-        boxShadow: [
-          BoxShadow(
-            color: Colors.grey.withOpacity(0.5),
-            spreadRadius: 2,
-            blurRadius: 5,
-            offset: const Offset(0, 3),
-          ),
-        ],
-      ),
-      child: Padding(
-        padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 26),
+    return FadeTransition(
+      opacity: _fadeAnimation,
+      child: Container(
+        decoration: BoxDecoration(
+          color: Colors.white,
+          borderRadius: BorderRadius.circular(20.r),
+          boxShadow: [
+            BoxShadow(
+              color: Colors.black.withValues(alpha: 0.08),
+              spreadRadius: 0,
+              blurRadius: 20,
+              offset: const Offset(0, 4),
+            ),
+          ],
+        ),
         child: Column(
           children: [
-            // صورة الموظف
-            if (employeeView!.imageUrl != null &&
-                employeeView.imageUrl!.isNotEmpty)
-              CachedImage(
-                width: 100,
-                height: 100,
-                radius: 100,
-                elevation: 4,
-                url: employeeView.imageUrl ?? "",
-              ),
-            // صورة افتراضية بالاسم لو مفيش صورة
-            AvatarView(name: employeeView.name ?? "AL"),
-            const SizedBox(height: 20),
-
-            // اسم الموظف
-            Text(
-              employeeView.name ?? "AL",
-              style: const TextStyle(fontSize: 20, fontWeight: FontWeight.bold),
-            ),
-
-            const SizedBox(height: 5),
-
-            // الوظيفة (ثابتة كمثال)
-            const Row(
-              mainAxisAlignment: MainAxisAlignment.center,
-              children: [
-                Icon(Icons.work, color: Colors.grey, size: 12),
-                SizedBox(width: 10),
-                Text(
-                  "Flutter Developer",
-                  style: TextStyle(fontSize: 12, color: Colors.grey),
-                ),
-              ],
-            ),
-
-            const SizedBox(height: 5),
-
-            // رقم الهاتف
-            Row(
-              mainAxisAlignment: MainAxisAlignment.center,
-              children: [
-                const Icon(Icons.phone, color: Colors.grey, size: 12),
-                const SizedBox(width: 10),
-                Text(
-                  employeeView.phoneNumber ?? "",
-                  style: const TextStyle(fontSize: 12, color: Colors.grey),
-                ),
-              ],
-            ),
-
-            const SizedBox(height: 5),
-
-            // البريد الإلكتروني
-            Row(
-              mainAxisAlignment: MainAxisAlignment.center,
-              children: [
-                const Icon(Icons.email, color: Colors.grey, size: 12),
-                const SizedBox(width: 10),
-                Text(
-                  employeeView.email ?? "",
-                  style: const TextStyle(fontSize: 12, color: Colors.grey),
-                ),
-              ],
-            ),
-
-            const SizedBox(height: 20),
-
-            // الوقت المتبقي
-            Text(
-              "${"remaining_time".tr} ${formatDuration(remainingValue)}",
-              style: const TextStyle(fontSize: 16, fontWeight: FontWeight.w600),
-            ),
-
-            const SizedBox(height: 5),
-
-            // وقت العمل
-            Text(
-              "${"work_time".tr} ${"from".tr} "
-              "${DateFormat("hh:mm a").format(widget.employeeInformation.shiftView!.start)} "
-              "${"to".tr} ${DateFormat("hh:mm a").format(widget.employeeInformation.shiftView!.end)}",
-              style: const TextStyle(fontSize: 12, color: Colors.grey),
-            ),
-
-            const SizedBox(height: 20),
-
-            // شريط التقدم (progress bar)
-            LinearProgressIndicator(value: progress.clamp(0.0, 1.0)),
-
-            const SizedBox(height: 20),
-
-            // زر بدء الحضور
-            if (widget.isSamePerson)
-              ElevatedButton(
-                onPressed: widget.onAttendTap,
-                child: Row(
-                  mainAxisAlignment: MainAxisAlignment.center,
-                  children: [
-                    SvgPicture.asset(
-                      Assets.icons.biomet,
-                      width: 20,
-                      height: 20,
-                      colorFilter: const ColorFilter.mode(
-                        Colors.white,
-                        BlendMode.srcIn,
-                      ),
-                    ),
-                    const SizedBox(width: 10),
-                    Text('start_attendance'.tr),
+            // Header with Gradient Background
+            Container(
+              padding: EdgeInsets.all(24.w),
+              decoration: BoxDecoration(
+                gradient: LinearGradient(
+                  begin: Alignment.topLeft,
+                  end: Alignment.bottomRight,
+                  colors: [
+                    LightColors.primaryColor.withValues(alpha: 0.1),
+                    LightColors.primaryColor.withValues(alpha: 0.05),
                   ],
                 ),
+                borderRadius: BorderRadius.only(
+                  topLeft: Radius.circular(20.r),
+                  topRight: Radius.circular(20.r),
+                ),
               ),
-
-            if (widget.isSamePerson) const SizedBox(height: 20),
-
-            // زر إنهاء الحضور
-            if (widget.isSamePerson)
-              ElevatedButton(
-                style: ElevatedButton.styleFrom(
-                  backgroundColor: Colors.red,
-                  shape: RoundedRectangleBorder(
-                    borderRadius: BorderRadius.circular(10),
-                    side: const BorderSide(color: Colors.red),
+              child: Column(
+                children: [
+                  // Profile Section
+                  Row(
+                    children: [
+                      // Profile Image
+                      Container(
+                        decoration: BoxDecoration(
+                          shape: BoxShape.circle,
+                          boxShadow: [
+                            BoxShadow(
+                              color: LightColors.primaryColor.withValues(alpha: 0.3),
+                              spreadRadius: 0,
+                              blurRadius: 10,
+                              offset: const Offset(0, 2),
+                            ),
+                          ],
+                        ),
+                        child: employeeView!.imageUrl != null &&
+                                employeeView.imageUrl!.isNotEmpty
+                            ? CachedImage(
+                                width: 60.w,
+                                height: 60.w,
+                                radius: 60.w,
+                                elevation: 0,
+                                url: employeeView.imageUrl ?? "",
+                              )
+                            : AvatarView(
+                                name: employeeView.name ?? "AL",
+                                raduis: 30.w,
+                              ),
+                      ),
+                      
+                      SizedBox(width: 16.w),
+                      
+                      // User Info
+                      Expanded(
+                        child: Column(
+                          crossAxisAlignment: CrossAxisAlignment.start,
+                          children: [
+                            Text(
+                              employeeView.name ?? "AL",
+                              style: AppTextStyles.bold(context).copyWith(
+                                fontSize: 20.sp,
+                                color: LightColors.textColor,
+                              ),
+                            ),
+                            SizedBox(height: 4.h),
+                            Text(
+                              "Flutter Developer",
+                              style: AppTextStyles.regular(context).copyWith(
+                                fontSize: 14.sp,
+                                color: LightColors.darkGreyColor,
+                              ),
+                            ),
+                            SizedBox(height: 8.h),
+                            Row(
+                              children: [
+                                Icon(
+                                  Icons.access_time,
+                                  size: 14.sp,
+                                  color: LightColors.primaryColor,
+                                ),
+                                SizedBox(width: 4.w),
+                                Text(
+                                  "${"work_time".tr} ${DateFormat("HH:mm").format(widget.employeeInformation.shiftView!.start)} - ${DateFormat("HH:mm").format(widget.employeeInformation.shiftView!.end)}",
+                                  style: AppTextStyles.regular(context).copyWith(
+                                    fontSize: 12.sp,
+                                    color: LightColors.darkGreyColor,
+                                  ),
+                                ),
+                              ],
+                            ),
+                          ],
+                        ),
+                      ),
+                      
+                      // Status Indicator
+                      Container(
+                        padding: EdgeInsets.symmetric(horizontal: 8.w, vertical: 4.h),
+                        decoration: BoxDecoration(
+                          color: progress < 1.0 
+                              ? LightColors.greenColor.withValues(alpha: 0.1)
+                              : LightColors.yelloColor.withValues(alpha: 0.1),
+                          borderRadius: BorderRadius.circular(12.r),
+                        ),
+                        child: Text(
+                          progress < 1.0 ? "active".tr : "completed".tr,
+                          style: AppTextStyles.medium(context).copyWith(
+                            fontSize: 10.sp,
+                            color: progress < 1.0 
+                                ? LightColors.greenColor
+                                : LightColors.yelloColor,
+                          ),
+                        ),
+                      ),
+                    ],
                   ),
-                ),
-                onPressed: widget.onLeaveTap,
-                child: Row(
-                  mainAxisAlignment: MainAxisAlignment.center,
+                  
+                  SizedBox(height: 24.h),
+                  
+                  // Progress Section
+                  Column(
+                    children: [
+                      Row(
+                        mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                        children: [
+                          Text(
+                            "${"remaining_time".tr}",
+                            style: AppTextStyles.medium(context).copyWith(
+                              fontSize: 14.sp,
+                              color: LightColors.darkGreyColor,
+                            ),
+                          ),
+                          Text(
+                            formatDuration(remainingValue),
+                            style: AppTextStyles.bold(context).copyWith(
+                              fontSize: 16.sp,
+                              color: LightColors.primaryColor,
+                            ),
+                          ),
+                        ],
+                      ),
+                      SizedBox(height: 12.h),
+                      ClipRRect(
+                        borderRadius: BorderRadius.circular(8.r),
+                        child: LinearProgressIndicator(
+                          value: progress.clamp(0.0, 1.0),
+                          backgroundColor: LightColors.greyColor.withValues(alpha: 0.2),
+                          valueColor: AlwaysStoppedAnimation<Color>(
+                            progress < 1.0 ? LightColors.primaryColor : LightColors.greenColor,
+                          ),
+                          minHeight: 8.h,
+                        ),
+                      ),
+                    ],
+                  ),
+                ],
+              ),
+            ),
+            
+            // Action Buttons
+            if (widget.isSamePerson) ...[
+              Padding(
+                padding: EdgeInsets.all(24.w),
+                child: Column(
                   children: [
-                    SvgPicture.asset(
-                      Assets.icons.logout,
-                      width: 20,
-                      height: 20,
-                      colorFilter: const ColorFilter.mode(
-                        Colors.white,
-                        BlendMode.srcIn,
+                    // Attend Button
+                    SizedBox(
+                      width: double.infinity,
+                      height: 48.h,
+                      child: ElevatedButton(
+                        onPressed: widget.onAttendTap,
+                        style: ElevatedButton.styleFrom(
+                          backgroundColor: LightColors.primaryColor,
+                          foregroundColor: Colors.white,
+                          elevation: 0,
+                          shadowColor: Colors.transparent,
+                          shape: RoundedRectangleBorder(
+                            borderRadius: BorderRadius.circular(12.r),
+                          ),
+                        ),
+                        child: Row(
+                          mainAxisAlignment: MainAxisAlignment.center,
+                          children: [
+                            SvgPicture.asset(
+                              Assets.icons.biomet,
+                              width: 20.w,
+                              height: 20.h,
+                              colorFilter: const ColorFilter.mode(
+                                Colors.white,
+                                BlendMode.srcIn,
+                              ),
+                            ),
+                            SizedBox(width: 8.w),
+                            Text(
+                              'start_attendance'.tr,
+                              style: AppTextStyles.semiBold(context).copyWith(
+                                fontSize: 16.sp,
+                                color: Colors.white,
+                              ),
+                            ),
+                          ],
+                        ),
                       ),
                     ),
-                    const SizedBox(width: 10),
-                    Text('end_attendance'.tr),
+                    
+                    SizedBox(height: 12.h),
+                    
+                    // Leave Button
+                    SizedBox(
+                      width: double.infinity,
+                      height: 48.h,
+                      child: OutlinedButton(
+                        onPressed: widget.onLeaveTap,
+                        style: OutlinedButton.styleFrom(
+                          foregroundColor: LightColors.redColor,
+                          side: BorderSide(
+                            color: LightColors.redColor,
+                            width: 1.5,
+                          ),
+                          shape: RoundedRectangleBorder(
+                            borderRadius: BorderRadius.circular(12.r),
+                          ),
+                        ),
+                        child: Row(
+                          mainAxisAlignment: MainAxisAlignment.center,
+                          children: [
+                            SvgPicture.asset(
+                              Assets.icons.logout,
+                              width: 20.w,
+                              height: 20.h,
+                              colorFilter: const ColorFilter.mode(
+                                LightColors.redColor,
+                                BlendMode.srcIn,
+                              ),
+                            ),
+                            SizedBox(width: 8.w),
+                            Text(
+                              'end_attendance'.tr,
+                              style: AppTextStyles.semiBold(context).copyWith(
+                                fontSize: 16.sp,
+                                color: LightColors.redColor,
+                              ),
+                            ),
+                          ],
+                        ),
+                      ),
+                    ),
                   ],
                 ),
               ),
+            ],
           ],
         ),
       ),
     );
   }
 
-  /// تحويل الثواني لعرضها كـ (ساعات:دقايق:ثواني)
   String formatDuration(int seconds) {
     final duration = Duration(seconds: seconds);
     String twoDigits(int n) => n.toString().padLeft(2, '0');

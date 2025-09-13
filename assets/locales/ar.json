@@ -62,5 +62,12 @@
     "read": "مقروء",
     "unread": "غير مقروء",
     "attachments": "المرفقات",
-    "now": "الآن"
+    "now": "الآن",
+    "welcome_back": "مرحباً بعودتك",
+    "work_hours": "ساعات العمل",
+    "efficiency": "الكفاءة",
+    "active": "نشط",
+    "completed": "مكتمل",
+    "today_attendance": "حضور اليوم",
+    "records": "سجلات"
 }

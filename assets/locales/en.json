@@ -62,5 +62,12 @@
     "read": "Read",
     "unread": "Unread",
     "attachments": "Attachments",
-    "now": "Now"
+    "now": "Now",
+    "welcome_back": "Welcome back",
+    "work_hours": "Work Hours",
+    "efficiency": "Efficiency",
+    "active": "Active",
+    "completed": "Completed",
+    "today_attendance": "Today's Attendance",
+    "records": "Records"
 }
