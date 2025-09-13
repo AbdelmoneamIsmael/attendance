@@ -11,13 +11,17 @@ import 'package:intl/intl.dart';
 import 'package:get/get.dart';
 
 class NotificationDetailsSheet extends StatelessWidget {
-  const NotificationDetailsSheet({super.key, required this.notification});
+  const NotificationDetailsSheet({
+    super.key,
+    required this.notification,
+  });
 
   final NotificationEntity notification;
 
   @override
   Widget build(BuildContext context) {
     return Container(
+      height: MediaQuery.of(context).size.height * 0.9,
       decoration: BoxDecoration(
         color: Theme.of(context).scaffoldBackgroundColor,
         borderRadius: const BorderRadius.only(
@@ -27,6 +31,17 @@ class NotificationDetailsSheet extends StatelessWidget {
       ),
       child: Column(
         children: [
+          // Handle bar
+          Container(
+            margin: EdgeInsets.only(top: 12.h),
+            width: 40.w,
+            height: 4.h,
+            decoration: BoxDecoration(
+              color: LightColors.greyColor,
+              borderRadius: BorderRadius.circular(2.r),
+            ),
+          ),
+          
           // Header
           Padding(
             padding: EdgeInsets.all(20.w),
@@ -55,9 +70,9 @@ class NotificationDetailsSheet extends StatelessWidget {
                     children: [
                       Text(
                         'notification_details'.tr,
-                        style: AppTextStyles.bold(
-                          context,
-                        ).copyWith(fontSize: 18.sp),
+                        style: AppTextStyles.bold(context).copyWith(
+                          fontSize: 18.sp,
+                        ),
                       ),
                       SizedBox(height: 4.h),
                       Text(
@@ -81,7 +96,7 @@ class NotificationDetailsSheet extends StatelessWidget {
               ],
             ),
           ),
-
+          
           // Content
           Expanded(
             child: SingleChildScrollView(
@@ -113,16 +128,16 @@ class NotificationDetailsSheet extends StatelessWidget {
                         SizedBox(height: 8.h),
                         Text(
                           notification.title ?? '',
-                          style: AppTextStyles.bold(
-                            context,
-                          ).copyWith(fontSize: 16.sp),
+                          style: AppTextStyles.bold(context).copyWith(
+                            fontSize: 16.sp,
+                          ),
                         ),
                       ],
                     ),
                   ),
-
+                  
                   SizedBox(height: 16.h),
-
+                  
                   // Body Section
                   Container(
                     width: double.infinity,
@@ -147,16 +162,17 @@ class NotificationDetailsSheet extends StatelessWidget {
                         SizedBox(height: 8.h),
                         Text(
                           notification.body ?? '',
-                          style: AppTextStyles.regular(
-                            context,
-                          ).copyWith(fontSize: 14.sp, height: 1.5),
+                          style: AppTextStyles.regular(context).copyWith(
+                            fontSize: 14.sp,
+                            height: 1.5,
+                          ),
                         ),
                       ],
                     ),
                   ),
-
+                  
                   SizedBox(height: 16.h),
-
+                  
                   // Date and User Info Section
                   Row(
                     children: [
@@ -167,9 +183,7 @@ class NotificationDetailsSheet extends StatelessWidget {
                             color: LightColors.backgroundColor,
                             borderRadius: BorderRadius.circular(12.r),
                             border: Border.all(
-                              color: LightColors.greyColor.withValues(
-                                alpha: 0.3,
-                              ),
+                              color: LightColors.greyColor.withValues(alpha: 0.3),
                             ),
                           ),
                           child: Column(
@@ -184,12 +198,12 @@ class NotificationDetailsSheet extends StatelessWidget {
                               ),
                               SizedBox(height: 8.h),
                               Text(
-                                DateFormat(
-                                  'yyyy-MM-dd HH:mm',
-                                ).format(notification.date ?? DateTime.now()),
-                                style: AppTextStyles.medium(
-                                  context,
-                                ).copyWith(fontSize: 14.sp),
+                                DateFormat('yyyy-MM-dd HH:mm').format(
+                                  notification.date ?? DateTime.now(),
+                                ),
+                                style: AppTextStyles.medium(context).copyWith(
+                                  fontSize: 14.sp,
+                                ),
                               ),
                             ],
                           ),
@@ -203,9 +217,7 @@ class NotificationDetailsSheet extends StatelessWidget {
                             color: LightColors.backgroundColor,
                             borderRadius: BorderRadius.circular(12.r),
                             border: Border.all(
-                              color: LightColors.greyColor.withValues(
-                                alpha: 0.3,
-                              ),
+                              color: LightColors.greyColor.withValues(alpha: 0.3),
                             ),
                           ),
                           child: Column(
@@ -226,12 +238,8 @@ class NotificationDetailsSheet extends StatelessWidget {
                                 ),
                                 decoration: BoxDecoration(
                                   color: notification.isRead
-                                      ? LightColors.greenColor.withValues(
-                                          alpha: 0.1,
-                                        )
-                                      : LightColors.yelloColor.withValues(
-                                          alpha: 0.1,
-                                        ),
+                                      ? LightColors.greenColor.withValues(alpha: 0.1)
+                                      : LightColors.yelloColor.withValues(alpha: 0.1),
                                   borderRadius: BorderRadius.circular(8.r),
                                 ),
                                 child: Text(
@@ -250,9 +258,9 @@ class NotificationDetailsSheet extends StatelessWidget {
                       ),
                     ],
                   ),
-
+                  
                   // Attachments Section
-                  if (notification.attatchments != null &&
+                  if (notification.attatchments != null && 
                       notification.attatchments!.isNotEmpty) ...[
                     SizedBox(height: 16.h),
                     Container(
@@ -279,13 +287,12 @@ class NotificationDetailsSheet extends StatelessWidget {
                           GridView.builder(
                             shrinkWrap: true,
                             physics: const NeverScrollableScrollPhysics(),
-                            gridDelegate:
-                                SliverGridDelegateWithFixedCrossAxisCount(
-                                  crossAxisCount: 2,
-                                  crossAxisSpacing: 12.w,
-                                  mainAxisSpacing: 12.h,
-                                  childAspectRatio: 1.2,
-                                ),
+                            gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
+                              crossAxisCount: 2,
+                              crossAxisSpacing: 12.w,
+                              mainAxisSpacing: 12.h,
+                              childAspectRatio: 1.2,
+                            ),
                             itemCount: notification.attatchments!.length,
                             itemBuilder: (context, index) {
                               return _buildAttachmentItem(
@@ -299,7 +306,7 @@ class NotificationDetailsSheet extends StatelessWidget {
                       ),
                     ),
                   ],
-
+                  
                   SizedBox(height: 20.h),
                 ],
               ),
@@ -315,7 +322,9 @@ class NotificationDetailsSheet extends StatelessWidget {
       decoration: BoxDecoration(
         color: Colors.white,
         borderRadius: BorderRadius.circular(8.r),
-        border: Border.all(color: LightColors.greyColor.withValues(alpha: 0.3)),
+        border: Border.all(
+          color: LightColors.greyColor.withValues(alpha: 0.3),
+        ),
       ),
       child: ClipRRect(
         borderRadius: BorderRadius.circular(8.r),
@@ -329,7 +338,7 @@ class NotificationDetailsSheet extends StatelessWidget {
     required String url,
   }) {
     final fileType = getAttachmentType(url: url);
-
+    
     switch (fileType) {
       case 'jpg':
       case 'jpeg':
@@ -350,13 +359,22 @@ class NotificationDetailsSheet extends StatelessWidget {
           child: Column(
             mainAxisAlignment: MainAxisAlignment.center,
             children: [
-              SvgPicture.asset(Assets.icons.pdfIcon, width: 32.w, height: 32.h),
+              SvgPicture.asset(
+                Assets.icons.pdfIcon,
+                width: 32.w,
+                height: 32.h,
+                colorFilter: const ColorFilter.mode(
+                  LightColors.redColor,
+                  BlendMode.srcIn,
+                ),
+              ),
               SizedBox(height: 8.h),
               Text(
                 'PDF',
-                style: AppTextStyles.medium(
-                  context,
-                ).copyWith(fontSize: 12.sp, color: LightColors.redColor),
+                style: AppTextStyles.medium(context).copyWith(
+                  fontSize: 12.sp,
+                  color: LightColors.redColor,
+                ),
               ),
             ],
           ),
@@ -383,9 +401,10 @@ class NotificationDetailsSheet extends StatelessWidget {
               SizedBox(height: 8.h),
               Text(
                 fileType.toUpperCase(),
-                style: AppTextStyles.medium(
-                  context,
-                ).copyWith(fontSize: 12.sp, color: LightColors.darkGreyColor),
+                style: AppTextStyles.medium(context).copyWith(
+                  fontSize: 12.sp,
+                  color: LightColors.darkGreyColor,
+                ),
               ),
             ],
           ),
