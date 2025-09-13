@@ -52,5 +52,14 @@
     "vocation": "Vacation",
     "late": "Late",
     "leave": "Leave",
-    "work_from_home": "Work From Home"
+    "work_from_home": "Work From Home",
+    "notification_details": "Notification Details",
+    "view_notification_details": "View notification details",
+    "title": "Title",
+    "message": "Message",
+    "date": "Date",
+    "status": "Status",
+    "read": "Read",
+    "unread": "Unread",
+    "attachments": "Attachments"
 }

@@ -37,7 +37,6 @@
     "work_time":"وقت العمل",
     "from":"من",
     "to":"الى",
-
     "department":"القسم",
     "show_all":"اظهار الكل",
     "search":"بحث",
@@ -53,5 +52,14 @@
     "vocation":"اجازة",
     "late":"تاخير",
     "leave":"انصراف",
-    "work_from_home":"عمل من منزل"
+    "work_from_home":"عمل من منزل",
+    "notification_details": "تفاصيل الإشعار",
+    "view_notification_details": "عرض تفاصيل الإشعار",
+    "title": "العنوان",
+    "message": "الرسالة",
+    "date": "التاريخ",
+    "status": "الحالة",
+    "read": "مقروء",
+    "unread": "غير مقروء",
+    "attachments": "المرفقات"
 }

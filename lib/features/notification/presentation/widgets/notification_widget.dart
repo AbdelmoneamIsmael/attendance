@@ -4,6 +4,7 @@ import 'package:attendance/core/widgets/attatchements/vedio_widget.dart';
 import 'package:attendance/features/notification/domain/entities/notification_entity.dart';
 import 'package:attendance/gen/assets.gen.dart';
 import 'package:flutter/material.dart';
+import 'package:attendance/features/notification/presentation/view/show_notification_details_sheet_view.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:flutter_svg/svg.dart';
 import 'package:intl/intl.dart';
@@ -13,73 +14,87 @@ class NotificationWidget extends StatelessWidget {
   final NotificationEntity notification;
   @override
   Widget build(BuildContext context) {
-    return Container(
-      padding: const EdgeInsets.all(16),
-      decoration: BoxDecoration(
-        color: Colors.white,
-        borderRadius: BorderRadius.circular(10),
-        boxShadow: [
-          BoxShadow(
-            color: Colors.grey.withOpacity(0.5),
-            spreadRadius: 2,
-            blurRadius: 5,
-            offset: const Offset(0, 3),
+    return GestureDetector(
+      onTap: () {
+        showModalBottomSheet(
+          isScrollControlled: true,
+          constraints: BoxConstraints(
+            minHeight: MediaQuery.of(context).size.height * 0.9,
+            maxHeight: MediaQuery.of(context).size.height * 0.9,
           ),
-        ],
-      ),
-      child: Column(
-        children: [
-          Row(
-            crossAxisAlignment: CrossAxisAlignment.start,
-            children: [
-              SvgPicture.asset(Assets.icons.notification, width: 40),
-              const SizedBox(width: 16),
-              Expanded(
-                child: Column(
-                  crossAxisAlignment: CrossAxisAlignment.start,
-                  children: [
-                    Text(
-                      notification.title ?? "",
-                      style: const TextStyle(fontWeight: FontWeight.bold),
-                    ),
-                    const SizedBox(height: 8),
-                    Text(
-                      notification.body ?? "",
-                      style: const TextStyle(color: Colors.grey),
-                    ),
-                    const SizedBox(height: 8),
-                    Text(
-                      DateFormat(
-                        'yyyy-MM-dd',
-                      ).format(notification.date ?? DateTime.now()),
-                      style: const TextStyle(color: Colors.grey),
-                    ),
-                    const SizedBox(height: 8),
-                    if (notification.attatchments!.isNotEmpty)
-                      SizedBox(
-                        height: 100.h,
-                        child: SingleChildScrollView(
-                          scrollDirection: Axis.horizontal,
-                          child: Row(
-                            spacing: 16,
-                            children: List.generate(
-                              notification.attatchments!.length,
-                              (index) => AspectRatio(
-                                aspectRatio: 1,
-                                child: getAttatchmentWidget(
-                                  url: notification.attatchments![index],
+          context: context,
+          builder: (context) =>
+              NotificationDetailsSheet(notification: notification),
+        );
+      },
+      child: Container(
+        padding: const EdgeInsets.all(16),
+        decoration: BoxDecoration(
+          color: Colors.white,
+          borderRadius: BorderRadius.circular(10),
+          boxShadow: [
+            BoxShadow(
+              color: Colors.grey.withValues(alpha: 0.5),
+              spreadRadius: 2,
+              blurRadius: 5,
+              offset: const Offset(0, 3),
+            ),
+          ],
+        ),
+        child: Column(
+          children: [
+            Row(
+              crossAxisAlignment: CrossAxisAlignment.start,
+              children: [
+                SvgPicture.asset(Assets.icons.notification, width: 40),
+                const SizedBox(width: 16),
+                Expanded(
+                  child: Column(
+                    crossAxisAlignment: CrossAxisAlignment.start,
+                    children: [
+                      Text(
+                        notification.title ?? "",
+                        style: const TextStyle(fontWeight: FontWeight.bold),
+                      ),
+                      const SizedBox(height: 8),
+                      Text(
+                        notification.body ?? "",
+                        style: const TextStyle(color: Colors.grey),
+                      ),
+                      const SizedBox(height: 8),
+                      Text(
+                        DateFormat(
+                          'yyyy-MM-dd',
+                        ).format(notification.date ?? DateTime.now()),
+                        style: const TextStyle(color: Colors.grey),
+                      ),
+                      const SizedBox(height: 8),
+                      if (notification.attatchments!.isNotEmpty)
+                        SizedBox(
+                          height: 100.h,
+                          child: SingleChildScrollView(
+                            scrollDirection: Axis.horizontal,
+                            child: Row(
+                              spacing: 16,
+                              children: List.generate(
+                                notification.attatchments!.length,
+                                (index) => AspectRatio(
+                                  aspectRatio: 1,
+                                  child: getAttatchmentWidget(
+                                    url: notification.attatchments![index],
+                                  ),
                                 ),
                               ),
                             ),
                           ),
                         ),
-                      ),
-                  ],
+                    ],
+                  ),
                 ),
-              ),
-            ],
-          ),
-        ],
+              ],
+            ),
+          ],
+        ),
       ),
     );
   }
