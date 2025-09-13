@@ -70,5 +70,6 @@
     "active": "Active",
     "completed": "Completed",
     "today_attendance": "Today's Attendance",
-    "records": "Records"
+    "records": "Records",
+    "no_notification": "No notifications yet"
 }

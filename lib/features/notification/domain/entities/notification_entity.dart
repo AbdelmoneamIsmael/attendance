@@ -1,20 +1,22 @@
 class NotificationEntity {
   String? title;
   String? body;
-  List<String>? attatchments;
-  String? userName;
-  String? userID;
+  List<String>? attachment;
+  String? senderName;
+  num? senderId;
   bool isRead;
-  DateTime? date;
+  DateTime? createDate;
+  num? id;
 
   NotificationEntity({
     this.title,
     this.body,
-    this.attatchments,
-    this.userName,
-    this.userID,
+    this.attachment,
+    this.senderName,
+    this.senderId,
     this.isRead = false,
-    this.date,
+    this.createDate,
+    this.id
   });
 
 }

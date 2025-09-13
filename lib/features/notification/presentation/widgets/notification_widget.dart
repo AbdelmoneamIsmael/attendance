@@ -21,7 +21,8 @@ class NotificationWidget extends StatelessWidget {
           isScrollControlled: true,
           context: context,
           backgroundColor: Colors.transparent,
-          builder: (context) => NotificationDetailsSheet(notification: notification),
+          builder: (context) =>
+              NotificationDetailsSheet(notification: notification),
         );
       },
       child: Container(
@@ -31,7 +32,7 @@ class NotificationWidget extends StatelessWidget {
           color: Colors.white,
           borderRadius: BorderRadius.circular(12.r),
           border: Border.all(
-            color: notification.isRead 
+            color: notification.isRead
                 ? LightColors.greyColor.withValues(alpha: 0.3)
                 : LightColors.primaryColor.withValues(alpha: 0.2),
             width: notification.isRead ? 1 : 1.5,
@@ -53,7 +54,7 @@ class NotificationWidget extends StatelessWidget {
                 Container(
                   padding: EdgeInsets.all(8.w),
                   decoration: BoxDecoration(
-                    color: notification.isRead 
+                    color: notification.isRead
                         ? LightColors.greyColor.withValues(alpha: 0.1)
                         : LightColors.primaryColor.withValues(alpha: 0.1),
                     borderRadius: BorderRadius.circular(8.r),
@@ -63,7 +64,7 @@ class NotificationWidget extends StatelessWidget {
                     width: 20.w,
                     height: 20.h,
                     colorFilter: ColorFilter.mode(
-                      notification.isRead 
+                      notification.isRead
                           ? LightColors.darkGreyColor
                           : LightColors.primaryColor,
                       BlendMode.srcIn,
@@ -78,7 +79,7 @@ class NotificationWidget extends StatelessWidget {
                     child: Container(
                       width: 8.w,
                       height: 8.h,
-                      decoration: BoxDecoration(
+                      decoration: const BoxDecoration(
                         color: LightColors.primaryColor,
                         shape: BoxShape.circle,
                       ),
@@ -86,9 +87,9 @@ class NotificationWidget extends StatelessWidget {
                   ),
               ],
             ),
-            
+
             SizedBox(width: 12.w),
-            
+
             // Content
             Expanded(
               child: Column(
@@ -102,7 +103,7 @@ class NotificationWidget extends StatelessWidget {
                           notification.title ?? 'notification'.tr,
                           style: AppTextStyles.semiBold(context).copyWith(
                             fontSize: 14.sp,
-                            color: notification.isRead 
+                            color: notification.isRead
                                 ? LightColors.textColor
                                 : LightColors.primaryColor,
                           ),
@@ -112,7 +113,7 @@ class NotificationWidget extends StatelessWidget {
                       ),
                       SizedBox(width: 8.w),
                       Text(
-                        _formatTime(notification.date ?? DateTime.now()),
+                        _formatTime(notification.createDate ?? DateTime.now()),
                         style: AppTextStyles.regular(context).copyWith(
                           fontSize: 11.sp,
                           color: LightColors.darkGreyColor,
@@ -120,9 +121,9 @@ class NotificationWidget extends StatelessWidget {
                       ),
                     ],
                   ),
-                  
+
                   SizedBox(height: 4.h),
-                  
+
                   // Preview Text
                   Text(
                     notification.body ?? '',
@@ -134,10 +135,10 @@ class NotificationWidget extends StatelessWidget {
                     maxLines: 2,
                     overflow: TextOverflow.ellipsis,
                   ),
-                  
+
                   // Attachments Indicator
-                  if (notification.attatchments != null && 
-                      notification.attatchments!.isNotEmpty) ...[
+                  if (notification.attachment != null &&
+                      notification.attachment!.isNotEmpty) ...[
                     SizedBox(height: 8.h),
                     Row(
                       children: [
@@ -148,7 +149,7 @@ class NotificationWidget extends StatelessWidget {
                         ),
                         SizedBox(width: 4.w),
                         Text(
-                          '${notification.attatchments!.length} ${'attachments'.tr}',
+                          '${notification.attachment!.length} ${'attachments'.tr}',
                           style: AppTextStyles.regular(context).copyWith(
                             fontSize: 11.sp,
                             color: LightColors.darkGreyColor,
@@ -160,9 +161,9 @@ class NotificationWidget extends StatelessWidget {
                 ],
               ),
             ),
-            
+
             SizedBox(width: 8.w),
-            
+
             // Arrow Icon
             Icon(
               Icons.arrow_forward_ios,
@@ -178,7 +179,7 @@ class NotificationWidget extends StatelessWidget {
   String _formatTime(DateTime dateTime) {
     final now = DateTime.now();
     final difference = now.difference(dateTime);
-    
+
     if (difference.inDays > 0) {
       return DateFormat('MMM dd').format(dateTime);
     } else if (difference.inHours > 0) {

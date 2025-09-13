@@ -6,4 +6,6 @@ class AppEndPoints {
   static const String getSubEmployees = '/api/Employees/GetAllSupEmployees';
   static const String getEmployeeAttendances = '/api/Employees/GetAllEmployeesAttendance';
   static const String addAttend = '/api/Attendances/Add';
+  //notification
+  static const String getNotifications = '/api/Notifications/GetAll';
 }

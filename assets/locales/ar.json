@@ -70,5 +70,6 @@
     "active": "نشط",
     "completed": "مكتمل",
     "today_attendance": "حضور اليوم",
-    "records": "سجلات"
+    "records": "سجلات",
+    "no_notification":"لا يوجد اشعارات بعد "
 }

@@ -10,6 +10,9 @@ import 'package:attendance/core/util/notification/notification_handeler.dart';
 import 'package:attendance/features/login_screen/data/datasources/remote_login_data_source.dart';
 import 'package:attendance/features/login_screen/data/repositories/login_services_imple.dart';
 import 'package:attendance/features/login_screen/domain/repositories/login_services.dart';
+import 'package:attendance/features/notification/data/datasources/get_notification_remote_repo.dart';
+import 'package:attendance/features/notification/data/repositories/notificattion_repo_implement.dart';
+import 'package:attendance/features/notification/domain/repositories/notification_repo.dart';
 import 'package:attendance/firebase_options.dart';
 import 'package:device_preview/device_preview.dart';
 import 'package:firebase_core/firebase_core.dart';
@@ -52,6 +55,12 @@ initialize() async {
   Get.lazyPut<EmployeeRepo>(
     () => GetEmployeeRepoImple(
       employeeRepoRemoteData: EmployeeRepoRemoteDataImple(ApiServer().dio),
+    ),
+    fenix: true,
+  );
+  Get.lazyPut<NotificationRepo>(
+    () => NotificattionRepoImplement(
+      getNotificationRemoteRepo: GetNotificationRemoteRepoImple(ApiServer().dio),
     ),
     fenix: true,
   );
