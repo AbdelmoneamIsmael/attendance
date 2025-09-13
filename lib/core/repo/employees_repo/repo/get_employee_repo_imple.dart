@@ -72,12 +72,13 @@ class GetEmployeeRepoImple extends EmployeeRepo {
     required int shiftId,
   }) async {
     try {
-      print(attendanceType.index);
-      var results = await employeeRepoRemoteData.addAttend({
+      final json = {
         "attendanceType": attendanceType.index,
         "shiftId": shiftId,
         "date": DateTime.now().toIso8601String(),
-      });
+      };
+      print(json);
+      var results = await employeeRepoRemoteData.addAttend(json);
       return Right(results);
     } catch (e) {
       if (e is DioException) {

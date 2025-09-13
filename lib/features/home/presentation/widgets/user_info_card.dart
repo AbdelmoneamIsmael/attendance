@@ -1,5 +1,4 @@
 import 'dart:async';
-
 import 'package:attendance/core/models/account_model/employee_info.dart';
 import 'package:attendance/core/widgets/avatar_view.dart';
 import 'package:attendance/core/widgets/attatchements/cashed_images.dart';
@@ -9,14 +8,16 @@ import 'package:flutter_svg/svg.dart';
 import 'package:get/get.dart';
 import 'package:intl/intl.dart';
 
+/// كارت معلومات الموظف + متابعة الحضور والانصراف
 class UserAttendInfoCard extends StatefulWidget {
   const UserAttendInfoCard({
     super.key,
-    this.isSamePerson = false,
+    this.isSamePerson = false, // هل المستخدم الحالي هو نفس الموظف
     required this.employeeInformation,
-    this.onAttendTap,
-    this.onLeaveTap,
+    this.onAttendTap, // حدث الضغط على زر الحضور
+    this.onLeaveTap, // حدث الضغط على زر الانصراف
   });
+
   final bool isSamePerson;
   final EmployeeInformation employeeInformation;
   final VoidCallback? onAttendTap, onLeaveTap;
@@ -26,39 +27,40 @@ class UserAttendInfoCard extends StatefulWidget {
 }
 
 class _UserAttendInfoCardState extends State<UserAttendInfoCard> {
-  double progress = 0;
-  int fullValue = 0; // total shift duration in seconds
-  int remainingValue = 0; // remaining time in seconds
+  double progress = 0; // نسبة التقدم في وقت الشيفت (من 0 لـ 1)
+  int fullValue = 0; // إجمالي مدة الشيفت بالثواني
+  int remainingValue = 0; // الوقت المتبقي بالثواني
   Timer? timer;
 
   @override
   void initState() {
     super.initState();
 
+    // حساب وقت الشيفت
     final shift = widget.employeeInformation.shiftView!;
     final start = shift.start;
     final end = shift.end;
-
     fullValue = end.difference(start).inSeconds;
 
+    // تايمر يحدث كل ثانية لحساب الوقت المتبقي والتقدم
     timer = Timer.periodic(const Duration(seconds: 1), (t) {
       final now = DateTime.now();
 
       if (now.isBefore(start)) {
-        // Shift not started
+        // قبل بداية الشيفت
         setState(() {
           remainingValue = fullValue;
           progress = 0;
         });
       } else if (now.isAfter(end)) {
-        // Shift ended
+        // بعد انتهاء الشيفت
         setState(() {
           remainingValue = 0;
           progress = 1.0;
         });
         t.cancel();
       } else {
-        // Inside shift range
+        // أثناء الشيفت
         final elapsed = now.difference(start).inSeconds;
         final remaining = end.difference(now).inSeconds;
         setState(() {
@@ -71,13 +73,14 @@ class _UserAttendInfoCardState extends State<UserAttendInfoCard> {
 
   @override
   void dispose() {
-    timer?.cancel();
+    timer?.cancel(); // إيقاف التايمر عند التخلص من الودجت
     super.dispose();
   }
 
   @override
   Widget build(BuildContext context) {
     final employeeView = widget.employeeInformation.employeeView;
+
     return Container(
       margin: const EdgeInsets.all(20),
       decoration: BoxDecoration(
@@ -96,6 +99,7 @@ class _UserAttendInfoCardState extends State<UserAttendInfoCard> {
         padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 26),
         child: Column(
           children: [
+            // صورة الموظف
             if (employeeView!.imageUrl != null &&
                 employeeView.imageUrl!.isNotEmpty)
               CachedImage(
@@ -105,13 +109,19 @@ class _UserAttendInfoCardState extends State<UserAttendInfoCard> {
                 elevation: 4,
                 url: employeeView.imageUrl ?? "",
               ),
+            // صورة افتراضية بالاسم لو مفيش صورة
             AvatarView(name: employeeView.name ?? "AL"),
             const SizedBox(height: 20),
+
+            // اسم الموظف
             Text(
               employeeView.name ?? "AL",
               style: const TextStyle(fontSize: 20, fontWeight: FontWeight.bold),
             ),
+
             const SizedBox(height: 5),
+
+            // الوظيفة (ثابتة كمثال)
             const Row(
               mainAxisAlignment: MainAxisAlignment.center,
               children: [
@@ -123,7 +133,10 @@ class _UserAttendInfoCardState extends State<UserAttendInfoCard> {
                 ),
               ],
             ),
+
             const SizedBox(height: 5),
+
+            // رقم الهاتف
             Row(
               mainAxisAlignment: MainAxisAlignment.center,
               children: [
@@ -135,7 +148,10 @@ class _UserAttendInfoCardState extends State<UserAttendInfoCard> {
                 ),
               ],
             ),
+
             const SizedBox(height: 5),
+
+            // البريد الإلكتروني
             Row(
               mainAxisAlignment: MainAxisAlignment.center,
               children: [
@@ -147,21 +163,33 @@ class _UserAttendInfoCardState extends State<UserAttendInfoCard> {
                 ),
               ],
             ),
+
             const SizedBox(height: 20),
+
+            // الوقت المتبقي
             Text(
               "${"remaining_time".tr} ${formatDuration(remainingValue)}",
               style: const TextStyle(fontSize: 16, fontWeight: FontWeight.w600),
             ),
+
             const SizedBox(height: 5),
+
+            // وقت العمل
             Text(
               "${"work_time".tr} ${"from".tr} "
               "${DateFormat("hh:mm a").format(widget.employeeInformation.shiftView!.start)} "
               "${"to".tr} ${DateFormat("hh:mm a").format(widget.employeeInformation.shiftView!.end)}",
               style: const TextStyle(fontSize: 12, color: Colors.grey),
             ),
+
             const SizedBox(height: 20),
-            LinearProgressIndicator(value: progress),
+
+            // شريط التقدم (progress bar)
+            LinearProgressIndicator(value: progress.clamp(0.0, 1.0)),
+
             const SizedBox(height: 20),
+
+            // زر بدء الحضور
             if (widget.isSamePerson)
               ElevatedButton(
                 onPressed: widget.onAttendTap,
@@ -182,7 +210,10 @@ class _UserAttendInfoCardState extends State<UserAttendInfoCard> {
                   ],
                 ),
               ),
+
             if (widget.isSamePerson) const SizedBox(height: 20),
+
+            // زر إنهاء الحضور
             if (widget.isSamePerson)
               ElevatedButton(
                 style: ElevatedButton.styleFrom(
@@ -216,6 +247,7 @@ class _UserAttendInfoCardState extends State<UserAttendInfoCard> {
     );
   }
 
+  /// تحويل الثواني لعرضها كـ (ساعات:دقايق:ثواني)
   String formatDuration(int seconds) {
     final duration = Duration(seconds: seconds);
     String twoDigits(int n) => n.toString().padLeft(2, '0');
