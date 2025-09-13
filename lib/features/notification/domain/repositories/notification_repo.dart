@@ -8,4 +8,6 @@ abstract class NotificationRepo {
   Future<Either<Failure,NotificationResponseModel>> getNotificattion({
     required NotificationParams notificationParams
   });
+
+  Future<Either<Failure,NotificationEntity>> updateNotificationStatus(NotificationEntity notification);
 }

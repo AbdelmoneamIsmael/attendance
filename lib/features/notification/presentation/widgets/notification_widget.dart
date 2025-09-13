@@ -1,6 +1,7 @@
 import 'package:attendance/core/themes/colors/colors.dart';
 import 'package:attendance/core/themes/styles/app_text_style.dart';
 import 'package:attendance/features/notification/domain/entities/notification_entity.dart';
+import 'package:attendance/features/notification/presentation/controller/notification_controller.dart';
 import 'package:attendance/features/notification/presentation/view/show_notification_details_sheet_view.dart';
 import 'package:attendance/gen/assets.gen.dart';
 import 'package:flutter/material.dart';
@@ -17,6 +18,7 @@ class NotificationWidget extends StatelessWidget {
   Widget build(BuildContext context) {
     return GestureDetector(
       onTap: () {
+        Get.find<NotificationController>().updateNotificationStatus(notification);
         showModalBottomSheet(
           isScrollControlled: true,
           context: context,

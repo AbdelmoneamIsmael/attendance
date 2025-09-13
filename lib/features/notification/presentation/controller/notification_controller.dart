@@ -87,4 +87,18 @@ class NotificationController extends GetxController {
     notifications.clear();
     await getAllNotifications();
   }
+
+  Future<void> updateNotificationStatus(NotificationEntity notification) async {
+    var result = await notificationRepo.updateNotificationStatus(notification);
+    result.fold(
+      (l) {
+        UIHelper.showSnakBar(message: l.message);
+        update();
+      },
+      (r) {
+        notification.isRead = r.isRead ?? true;
+        update();
+      },
+    );
+  }
 }

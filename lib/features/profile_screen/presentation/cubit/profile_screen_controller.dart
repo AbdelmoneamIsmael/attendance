@@ -162,7 +162,11 @@ class ProfileController extends GetxController {
         sortColumn: null,
         sortDirection: null,
         search: "",
-        readDto: AttendReadDto(id: null, employeeId: employeeId, date: null),
+        readDto: AttendReadDto(
+          id: null,
+          employeeId: employeeId,
+          date: DateTime.now(),
+        ),
       ),
     );
     result.fold(

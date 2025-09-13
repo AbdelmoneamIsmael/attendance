@@ -1,3 +1,4 @@
+import 'dart:developer';
 import 'dart:io';
 import 'package:attendance/core/const/app_const.dart';
 import 'package:attendance/core/const/storage_keys.dart';
@@ -48,6 +49,7 @@ class ApiServer extends ApiRepo {
           String? language = await CacheHelper.getSecuerString(
             key: StorageKeys.languageCode,
           );
+          log("token $token");
           options.headers["Authorization"] = "Bearer $token";
           options.headers["Accept-Language"] = language.isEmpty
               ? "ar-EG"

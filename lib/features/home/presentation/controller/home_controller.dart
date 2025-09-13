@@ -201,4 +201,15 @@ class HomeController extends GetxController {
       },
     );
   }
+
+  Future<void> refreshHomePage() async {
+    pageIndex = 1;
+    //crlear employees
+    employees.clear();
+    searchController.clear();
+    getEmployeesWhoIManaged();
+    //clear attendances
+    attendancesDayEvent = [];
+    getAttendanceEvents();
+  }
 }

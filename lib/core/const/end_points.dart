@@ -8,4 +8,5 @@ class AppEndPoints {
   static const String addAttend = '/api/Attendances/Add';
   //notification
   static const String getNotifications = '/api/Notifications/GetAll';
+  static const String updateNotification = '/api/Notifications/ReadNotification';
 }
