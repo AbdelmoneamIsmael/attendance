@@ -1,3 +1,5 @@
+import 'package:attendance/core/const/app_const.dart';
+import 'package:attendance/core/const/storage_keys.dart';
 import 'package:attendance/core/util/cache/cache_helper.dart';
 import 'package:attendance/core/widgets/ui_helper.dart';
 import 'package:get/get.dart';
@@ -23,10 +25,12 @@ class NotifcationStreamController extends GetxController {
   ///////notification stream//////////
   HubConnection? hubConnection;
   int unreadCount = 0;
-  final String hubUrl = "https://shupik.cde-tec.com/notificationHub";
+  final String hubUrl = "$prodBaseURl/notificationHub";
 
   void connect() async {
-    String token = await CacheHelper.getSecuerString(key: 'token');
+    String token = await CacheHelper.getSecuerString(
+      key: StorageKeys.accessToken,
+    );
 
     if (token.isEmpty) {
       print("❌ No token available for SignalR connection");

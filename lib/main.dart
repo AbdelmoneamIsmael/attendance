@@ -1,5 +1,6 @@
 // import 'dart:html' as web;
 import 'package:attendance/app_configration.dart';
+import 'package:attendance/core/const/app_const.dart';
 import 'package:attendance/core/repo/employees_repo/data/employee_repo_remote_data.dart';
 import 'package:attendance/core/repo/employees_repo/repo/employee_repo.dart';
 import 'package:attendance/core/repo/employees_repo/repo/get_employee_repo_imple.dart';
@@ -42,6 +43,7 @@ Future<void> firebaseConfig() async {
       AuthorizationStatus.authorized) {
     await NotificationHelper.init();
   }
+  print("Device token: $kDeviceToken");
 }
 
 initialize() async {
@@ -60,7 +62,9 @@ initialize() async {
   );
   Get.lazyPut<NotificationRepo>(
     () => NotificattionRepoImplement(
-      getNotificationRemoteRepo: GetNotificationRemoteRepoImple(ApiServer().dio),
+      getNotificationRemoteRepo: GetNotificationRemoteRepoImple(
+        ApiServer().dio,
+      ),
     ),
     fenix: true,
   );

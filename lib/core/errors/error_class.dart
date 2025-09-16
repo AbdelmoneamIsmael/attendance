@@ -1,3 +1,4 @@
+import 'package:attendance/core/models/basic_response_model.dart';
 import 'package:dio/dio.dart';
 
 abstract class Failure {
@@ -23,20 +24,25 @@ class ServerFailure extends Failure {
         return ServerFailure('Cancel with ApiServer');
       case DioExceptionType.connectionError:
         return ServerFailure(
-            'Connection Error From the server ,Try Again Later');
+          'Connection Error From the server ,Try Again Later',
+        );
       case DioExceptionType.unknown:
         return ServerFailure('Unexpected Error with server, please try again!');
     }
   }
   factory ServerFailure.fromResponse(Response response) {
+    BasicResponseModel basicResponseModel = BasicResponseModel.fromJson(
+      response.data,
+    );
     if (response.statusCode == 404) {
-      return ServerFailure('Not Found');
+      return ServerFailure(basicResponseModel.message);
     } else if (response.statusCode == 500) {
       return ServerFailure('Internal Server Error');
     } else if (response.statusCode == 400) {
       return ServerFailure('${response.data}');
     } else if (response.statusCode == 401 || response.statusCode == 403) {
-      return ServerFailure(response.statusMessage!);
+    
+      return ServerFailure(basicResponseModel.message);
     } else {
       return ServerFailure('Unexpected Error, please try again!');
     }
