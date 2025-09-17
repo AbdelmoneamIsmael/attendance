@@ -37,11 +37,10 @@ class ServerFailure extends Failure {
     if (response.statusCode == 404) {
       return ServerFailure(basicResponseModel.message);
     } else if (response.statusCode == 500) {
-      return ServerFailure('Internal Server Error');
+      return ServerFailure(basicResponseModel.message);
     } else if (response.statusCode == 400) {
-      return ServerFailure('${response.data}');
+      return ServerFailure(basicResponseModel.message);
     } else if (response.statusCode == 401 || response.statusCode == 403) {
-    
       return ServerFailure(basicResponseModel.message);
     } else {
       return ServerFailure('Unexpected Error, please try again!');
