@@ -166,7 +166,7 @@ ThemeData darkTheme = ThemeData(
   fontFamily: kFontFamily,
   brightness: Brightness.dark,
   scaffoldBackgroundColor: DarkColors.backgroundColor,
-  bottomAppBarTheme: const BottomAppBarTheme(),
+  bottomAppBarTheme: const BottomAppBarThemeData(),
   iconTheme: const IconThemeData(color: DarkColors.textColor),
   primaryColor: DarkColors.primaryColor,
   useMaterial3: true,

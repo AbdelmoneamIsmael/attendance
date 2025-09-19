@@ -1,4 +1,3 @@
-import 'package:attendance/core/util/extentions/time_zone.dart';
 import 'package:json_annotation/json_annotation.dart';
 
 part 'employee_info.g.dart';

@@ -36,7 +36,7 @@ android {
     defaultConfig {
         multiDexEnabled = true
         applicationId = "com.almahd.attendance"
-        minSdk = 23
+        minSdk = flutter.minSdkVersion
         targetSdk = flutter.targetSdkVersion
         versionCode = flutter.versionCode
         versionName = flutter.versionName

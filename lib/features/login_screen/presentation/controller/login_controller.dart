@@ -17,6 +17,7 @@ import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:local_auth/local_auth.dart';
 import 'package:unique_identifier/unique_identifier.dart';
+import 'package:geolocator/geolocator.dart';
 
 class LoginController extends GetxController {
   TextEditingController usernameController = TextEditingController();
@@ -49,14 +50,16 @@ class LoginController extends GetxController {
 
   bool loading = false;
   Future<void> login() async {
-    // await checkFaceAuth();
-    await cheeckNotification();
-    String identifier = await getDeviceId() ?? "";
-    String mobileModle = await getDeviceInfo();
     if (formKey.currentState!.validate()) {
+      loading = true;
+      update();
       bool auth = await authenticateUser();
-
-      if (true) {
+      await checkFaceAuth();
+      await cheeckNotification();
+      var position = await determinePosition();
+      String identifier = await getDeviceId() ?? "";
+      String mobileModle = await getDeviceInfo();
+      if (auth) {
         loading = true;
         update();
         LoginParams loginParams = LoginParams(
@@ -64,8 +67,8 @@ class LoginController extends GetxController {
           password: passwordController.text,
           deviceToken: kDeviceToken,
           deviceId: identifier,
-          longitude: "0",
-          latitude: "1",
+          longitude: position.longitude.toString(),
+          latitude: position.latitude.toString(),
         );
         try {
           var results = await loginServices.login(loginParams: loginParams);
@@ -95,55 +98,55 @@ class LoginController extends GetxController {
   }
 
   Future<bool> authenticateUser() async {
-    return true; //for semulator
-    // try {
-    //   // Check if device supports biometrics (face/fingerprint)
-    //   final bool canAuthenticateWithBiometrics = await auth.canCheckBiometrics;
-    //   bool canAuthenticate =
-    //       await auth.canCheckBiometrics || await auth.isDeviceSupported();
+    // return true; //for semulator
+    try {
+      // Check if device supports biometrics (face/fingerprint)
+      final bool canAuthenticateWithBiometrics = await auth.canCheckBiometrics;
+      bool canAuthenticate =
+          await auth.canCheckBiometrics || await auth.isDeviceSupported();
 
-    //   if (!canAuthenticate) {
-    //     UIHelper.showSnakBar(
-    //       title: "Error",
-    //       message: "Your device is not supported for biometric authentication",
-    //     );
+      if (!canAuthenticate) {
+        UIHelper.showSnakBar(
+          title: "error".tr,
+          message: "bio_error".tr,
+        );
 
-    //     return false;
-    //   }
+        return false;
+      }
 
-    //   // Get available biometrics (face, fingerprint...)
-    //   List<BiometricType> availableBiometrics = await auth
-    //       .getAvailableBiometrics();
+      // Get available biometrics (face, fingerprint...)
+      List<BiometricType> availableBiometrics = await auth
+          .getAvailableBiometrics();
 
-    //   print("Available biometrics: $availableBiometrics");
+      print("Available biometrics: $availableBiometrics");
 
-    //   // Authenticate the user
-    //   bool didAuthenticate = await auth.authenticate(
-    //     localizedReason: 'Please authenticate to access the app',
-    //     options: const AuthenticationOptions(
-    //       biometricOnly: true,
-    //       stickyAuth: true,
-    //     ),
-    //   );
+      // Authenticate the user
+      bool didAuthenticate = await auth.authenticate(
+        localizedReason: 'Please authenticate to access the app',
+        options: const AuthenticationOptions(
+          biometricOnly: true,
+          stickyAuth: true,
+        ),
+      );
 
-    //   if (didAuthenticate) {
-    //     UIHelper.showSnakBar(
-    //       title: "Success",
-    //       message: "Authentication successful",
-    //     );
-    //     // Proceed: Save auth status to database or allow access
-    //     return true;
-    //   } else {
-    //     UIHelper.showSnakBar(title: "Error", message: "Authentication failed");
-    //     return false;
-    //   }
-    // } catch (e) {
-    //   UIHelper.showSnakBar(
-    //     title: "Error",
-    //     message: "Authentication failed ${e.toString()}",
-    //   );
-    //   return false;
-    // }
+      if (didAuthenticate) {
+        UIHelper.showSnakBar(
+          title: "Success",
+          message: "Authentication successful",
+        );
+        // Proceed: Save auth status to database or allow access
+        return true;
+      } else {
+        UIHelper.showSnakBar(title: "Error", message: "Authentication failed");
+        return false;
+      }
+    } catch (e) {
+      UIHelper.showSnakBar(
+        title: "Error",
+        message: "Authentication failed ${e.toString()}",
+      );
+      return false;
+    }
   }
 
   Future<String?> getDeviceId() async {
@@ -205,5 +208,52 @@ class LoginController extends GetxController {
         Get.offAndToNamed(PageKeys.homeScreen);
       },
     );
+  }
+
+  Future<Position> determinePosition() async {
+    bool serviceEnabled;
+    LocationPermission permission;
+
+    // Test if location services are enabled.
+    serviceEnabled = await Geolocator.isLocationServiceEnabled();
+    if (!serviceEnabled) {
+      // Location services are not enabled don't continue
+      // accessing the position and request users of the
+      // App to enable the location services.
+      return Future.error('Location services are disabled.');
+    }
+
+    permission = await Geolocator.checkPermission();
+    if (permission == LocationPermission.denied) {
+      permission = await Geolocator.requestPermission();
+      if (permission == LocationPermission.denied) {
+        // Permissions are denied, next time you could try
+        // requesting permissions again (this is also where
+        // Android's shouldShowRequestPermissionRationale
+        // returned true. According to Android guidelines
+        // your App should show an explanatory UI now.
+        UIHelper.showSnakBar(
+          title: "Error",
+          message: "Location permissions are denied",
+        );
+        return Future.error('Location permissions are denied');
+      }
+    }
+
+    if (permission == LocationPermission.deniedForever) {
+      // Permissions are denied forever, handle appropriately.
+      UIHelper.showSnakBar(
+        title: "Error",
+        message:
+            "Location permissions are permanently denied, we cannot request permissions.",
+      );
+      return Future.error(
+        'Location permissions are permanently denied, we cannot request permissions.',
+      );
+    }
+
+    // When we reach here, permissions are granted and we can
+    // continue accessing the position of the device.
+    return await Geolocator.getCurrentPosition();
   }
 }
